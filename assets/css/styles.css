@@ -1,320 +1,593 @@
-/* Fonts */
+/* ==========================================================================
+   1. FONTS & VARIABLES
+   ========================================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;500&family=Oswald:wght@400;500&display=swap');
-
+html {
+  scroll-behavior: smooth;
+}
+/* ==========================================================================
+   2. RESET & GLOBAL STYLES
+   ========================================================================== */
 body {
   font-family: 'Cabin', sans-serif;
   font-optical-sizing: auto;
   color: #111;
   line-height: 1.5;
+  margin: 0;
+  overflow: auto;
 }
 
-  @media (max-width: 900px) {
-    .grid {
-      grid-template-columns: 1fr;
-    }
-    .intro {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .logo {
-        height:20px;
-      }
-  }
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-/* HEADER */
+section {
+  padding: 6rem 2rem;
+}
+
+a {
+  transition: all .25s;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Text Selection */
+::-moz-selection {
+  color: white;
+  background: #16516A;
+}
+
+::selection {
+  color: white;
+  background: #16516A;
+}
+
+/* ==========================================================================
+   3. HEADER & NAV
+   ========================================================================== */
+
+
+/* Header Container */
 .site-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  z-index: 1000;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem 3rem;
+  padding: 1.5rem 2rem;
 }
 
-/* Text Logo
+/* Desktop Nav ( > 768px ) */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
 
-.logo {
-  font-family: 'Cabin', sans-serif;
+.nav-menu a {
   font-weight: 500;
-  font-size: 1.6rem;
+  color: #111;
+  font-size: 0.95rem;
 }
 
-*/
-
-/* LOGO */
-
-.logo {
-    height: 40px;
-    
-}
-.logo img {
-    height:100%;
+.nav-button {
+  background: #0090CC;
+  color: #fff !important;
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  transition: transform 0.2s ease;
 }
 
-nav a {
-  margin-left: 2rem;
-  text-decoration: none;
+.nav-button:hover {
+  transform: translateY(-2px);
+  background: #0070a0;
+}
+
+/* Hamburger Hidden on Desktop */
+.menu-toggle {
+  display: none;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.bar {
+  display: block;
+  width: 25px;
+  height: 2px;
+  margin: 5px auto;
+  background-color: #111;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Ensure the hamburger stays on top of the mobile menu */
+.menu-toggle {
+  position: relative;
+  z-index: 1001;
+}
+
+/* Optional: Add a slight hover to nav links for better UX */
+.nav-menu a:hover {
   color: #0090CC;
-  font-weight: 500;
-  opacity: 0.6;
 }
 
-nav a:hover {
+/* Mobile Nav ( <= 768px ) */
+@media (max-width: 768px) {
+  .menu-toggle { display: block; }
+
+  /* Hamburger to X Animation */
+  .menu-toggle.is-active .bar:nth-child(2) { opacity: 0; }
+  .menu-toggle.is-active .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .menu-toggle.is-active .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav-menu {
+    position: fixed;
+    flex-direction: column;
+    background-color: #fff;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: -100%; /* Start off-screen */
+    text-align: center;
+    transition: 0.3s;
+    justify-content: center;
+    padding-top: 80px;
+  }
+
+  .nav-menu.active {
+    left: 0;
+  }
+
+  .nav-menu a {
+    font-size: 2rem;
+    margin: 1.5rem 0;
+  }
+}
+
+.logo {
+  height: 40px;
+}
+
+.logo img {
+  height: 100%;
+}
+/* ==========================================================================
+   4. HOMEPAGE COMPONENTS
+   ========================================================================== */
+
+/* Intro Section */
+.intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 8rem 3rem 5rem;
+}
+
+.intro-text {
+  max-width: 600px;
+}
+
+.intro h1 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
+  font-size: clamp(3rem, 6vw, 5rem);
+  text-transform: uppercase;
+  letter-spacing: -.2rem;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.intro p {
+  font-size: 1.2rem;
+  line-height: 1.4;
+}
+
+/* Work Grid */
+.work {
+  padding-top: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem 2.5rem;
+}
+
+.card img {
+  width: 100%;
+  display: block;
+  border-radius: 12px;
+  transition: all 0.25s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+  overflow: hidden;
+}
+
+.card:hover img {
+  border-radius: 24px;
+}
+
+.card:active img {
+  scale: 96%;
+}
+
+.meta-bottom {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+  opacity: 0.8;
+}
+
+.meta-top {
+  display: flex;      
+  justify-content: space-between;
+  font-size: 1rem;
+  margin-top: 0.4rem;
+  opacity: 0.8;
+}
+
+/* About Strip */
+.about {
+  max-width: 700px;
+  margin: 4rem auto;
+  font-size: 1.1rem;
+}
+
+/* Link Animations */
+@keyframes highlight {
+  from { background-position: 0; }
+  to { background-position: -100%; }
+}
+
+a.animated {
+  margin: 16px;
+  padding: 6px 8px;
+  border-radius: 8px;
+}
+
+a.animated:hover {
+  background: #CBE7F4;
+  animation: highlight 0.25s forwards;
+}
+
+
+/* ==========================================================================
+   5. ABOUT PAGE
+   ========================================================================== */
+
+.about-grid-container {
+display: flex;
+  gap: 4rem;
+  padding: 10rem 3rem 8rem;
+  max-width: 1400px;
+  /* Key change: Aligns all columns to the bottom */
+  align-items: flex-end; 
+  
+  /* Ensures everything stays anchored left */
+  justify-content: flex-start; 
+  
+  /* Gives the container enough height to feel like a "bottom" alignment */
+  min-height: 80vh;
+}
+
+.about-col {
+  height: auto;
+}
+
+/* Column 1: Intro/Origin */
+.col-1 {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.col-1 h1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  text-transform: uppercase;
+  letter-spacing: -.16rem;
+  line-height: 1.1;
+  margin-bottom: 2rem;
+}
+
+.origin-text {
+  font-size: 1.1rem;
+  color: #888;
+  line-height: 1.6;
+}
+
+/* Columns 2 & 3: Narrative Wrapper */
+.col-narrative {
+  flex: 2;
+  /* Keeps the lead text and bio columns together at the bottom */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.bio-lead {
+  font-size: 1.75rem;
+  line-height: 1.3;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: #0090CC;
+}
+
+/* Inner Flex for the two narrative columns */
+.bio-columns {
+  display: flex;
+  gap: 3rem;
+}
+
+.bio-column-inner {
+  flex: 1;
+}
+
+.bio-column-inner p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  opacity: 0.85;
+}
+
+/* RESPONSIVE OVERRIDES */
+@media (max-width: 1024px) {
+  .about-grid-container {
+    flex-direction: column;
+    padding-top: 6rem;
+  }
+  
+  .bio-columns {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+/* Slideshow Styling */
+.slideshow-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  margin-top: 2rem;
+  border-radius: 8px;
+  background: #000; /* Darker background helps the crossfade look cleaner */
+}
+
+/* Updated Slideshow Logic */
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  /* Increase transition time to be smoother than the JS switch */
+  transition: opacity 2.5s ease-in-out; 
+  z-index: 1;
+}
+
+.slide.active {
+  opacity: 1;
+  z-index: 2; /* Active slide sits on top */
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Apply animation to ALL images within slides, 
+     but control the play state to prevent CPU lag */
+  animation: slowZoom 20s linear infinite;
+  animation-play-state: paused;
+}
+
+/* Only play the zoom when the slide is active or fading out */
+.slide.active img {
+  animation-play-state: running;
+}
+
+@keyframes slowZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.3); } /* Larger scale + longer duration = smoother */
+}
+/* ==========================================================================
+   5. WORK PAGE (ACCORDION)
+   ========================================================================== */
+.work-container, .work-experience {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-drawer {
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.drawer-closed, .drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 5%;
+  height: 120px;
+}
+
+.project-identity {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.project-logo, .mini-logo {
+  height: 64px;
+  width: auto;
+  border-radius: 4px;
+}
+
+/* Expanding State */
+.drawer-open, .drawer-content {
+  max-height: 0;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  transition: all 0.5s ease;
+  overflow: hidden;
+}
+
+.project-drawer.is-open {
+  height: fit-content;
+  background-color: #f9f9f9;
+}
+
+.project-drawer.is-open .drawer-open,
+.project-drawer.is-open .drawer-content {
+  opacity: 1;
+  max-height: 80vh; /* Allowed to grow */
+  padding: 2rem 5% 4rem 5%;
+}
+
+.case-study-content, .case-study-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4rem;
+  width: 100%;
+}
+
+.case-box h3 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16rem;
+  margin-bottom: 1rem;
+  color: #888;
+}
+
+/* ==========================================================================
+   NEW FOOTER FROM SCRATCH
+   ========================================================================== */
+
+.site-footer {
+  background-color: #0b1120;
+  color: #ffffff;
+  position: relative;
+  padding: 0 5% 60px 5%;
+  margin-top: 120px; /* Space for the wave to overlap */
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Row & Column Flexbox */
+.footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 40px 0;
+}
+
+.row-top {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+/* Styling Column Content */
+.footer-logo {
+  height: 30px;
+  filter: brightness(0) invert(1);
+  display: block;
+  margin-bottom: 10px;
+}
+
+.copyright {
+  font-size: 0.8rem;
+  color: #8892b0;
+  margin: 0;
+}
+
+.col-socials{
+  display: flex;
+  gap: 24px;
+}
+
+.col-nav {
+  display: flex;
+  gap: 24px;
+  float: right;
+}
+
+.footer-col a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.footer-col a:hover {
   opacity: 1;
 }
 
-nav a:active{
-    scale: 80%;
+/* The CTA Button */
+.col-cta {
+  text-align: right;
 }
 
+.footer-btn {
+  display: inline-block;
+  background-color: #427df2;
+  color: white !important;
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  opacity: 1 !important;
+}
 
-/* GLOBAL LAYOUT */
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .footer-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 30px;
+  }
+  
+  .col-cta {
+    text-align: center;
+  }
+}
 
-main {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  section {
-    padding: 7rem 2.5rem;
-  }
-  
-
-section {
-    padding: 6rem 2rem;
-  }
-  
-  
-
-/* INTRO - split layout */
-.intro {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 8rem 3rem 5rem;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .intro-text {
-    max-width: 600px;
-  }
-  
-  .intro h1 {
-    font-family: 'Oswald', sans-serif;
-    font-weight: 500;
-    font-size: clamp(3rem, 6vw, 5rem);
-    text-transform: uppercase;
-    letter-spacing: -.2rem;
-    font-optical-sizing: auto;
-    line-height: 1.1;
-    margin-bottom: 1rem;
-  }
-  
-  .intro p {
-    font-size: 1.2rem;
-    line-height: 1.4;
-  }
-  
-  
-  /* WORK */
-  
-  .work {
-    padding-top: 1rem;
-  }
-  
+/* ==========================================================================
+   7. RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 900px) {
   .grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3rem 2.5rem;
+    grid-template-columns: 1fr;
   }
   
-    
-  .card {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  .card img {
-    width: 100%;
-    display: block;
-    border-radius: 12px;
-    overflow: hidden;
-
-  }
-  
-  .meta {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.85rem;
-    margin-top: 0.4rem;
-    opacity: 0.8;
-  }
-  
-  /* ABOUT */
-  
-  .about {
-    max-width: 700px;
-    margin: 4rem auto;
-    font-size: 1.1rem;
-  }
-  
-  /* CONTACT */
-  
-  .contact {
-    display: flex;
-    justify-content: space-between;
+  .intro {
+    flex-direction: column;
     align-items: flex-start;
-    margin: 0 auto;
-    text-align: left;
-  }
-  
-  .contact a {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  /* HOVER (subtle) */
-  
-  .card img {
-    transition: all 0.25s cubic-bezier(0.68, -0.6, 0.32, 1.6);
-
-  }
-  
-  .card:hover img {
-    scale: 96%;
-    border-radius: 40px;
-  }
-  .card:active img{
-    scale: 96%;
-    border-radius: 40px;
   }
 
-
-  /* Text Highlighting */
-
-  ::-moz-selection { /* Firefox */
-    color: white;
-    background: #16516A;
-  }
-  
-  ::selection {
-    color: white;
-    background: #16516A;
+  .logo {
+    height: 20px;
   }
 
-  /* Link activations */
-  a {
-    transition: all .25s;
+  .case-study-content, .case-study-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
-
-
-@keyframes highlight {
-    from {
-      background-position: 0;
-    }
-
-    to {
-      background-position: -100%;
-    }
 }
-
-a.animated{
-    margin: 16px;
-    padding: 6px 8px;
-    border-radius: 8px;
-}
-  a.animated:hover {
-    background: #CBE7F4;
-    animation-name: highlight;
-    animation-duration: 0.25s;
-    animation-fill-mode: forwards;
-  }
-  
-
-  /* Nav animations */
-  /* nav-icon-1 */
-.nav-icon-1{
-    width: 30px;
-    height: 30px;
-    position: relative;
-    transition: .1s;
-    margin: 10px 10px;
-    cursor: pointer;
-    display: inline-block;
-  }
-  .nav-icon-1 span{
-    width: 5px;
-    height: 5px;
-    background-color: #000;
-    display: block;
-    border-radius: 50%;
-    position: absolute;
-  
-  }
-  .nav-icon-1:hover span{
-    transform: scale(1.2);
-    transition: 350ms cubic-bezier(.8, .5, .2, 1.4);
-  }
-  .nav-icon-1 span:nth-child(1){
-    left: 0;
-    top: 0;
-  }
-  .nav-icon-1 span:nth-child(2){
-    left: 12px;
-    top: 0;
-  }
-  .nav-icon-1 span:nth-child(3){
-    right: 0;
-    top: 0;
-  }
-  .nav-icon-1 span:nth-child(4){
-    left: 0;
-    top: 12px;
-  }
-  .nav-icon-1 span:nth-child(5){
-    position: absolute;
-    left: 12px;
-    top: 12px;
-  }
-  .nav-icon-1 span:nth-child(6){
-    right: 0px;
-    top: 12px;
-  }
-  .nav-icon-1 span:nth-child(7){
-    left: 0px;
-    bottom: 0px;
-  }
-  .nav-icon-1 span:nth-child(8){
-    position: absolute;
-    left: 12px;
-    bottom: 0px;
-  }
-  .nav-icon-1 span:nth-child(9){
-    right: 0px;
-    bottom: 0px;
-  }
-  .nav-icon-1.open{
-    transform: rotate(180deg);
-    cursor: pointer;
-    transition: .2s cubic-bezier(.8, .5, .2, 1.4);
-  }
-  .nav-icon-1.open span{
-    border-radius: 50%;
-    transition-delay: 200ms;
-    transition: .2s cubic-bezier(.8, .5, .2, 1.4);
-  }
-  .nav-icon-1.open span:nth-child(2) {
-    left: 6px;
-    top: 6px;
-  }
-  .nav-icon-1.open span:nth-child(4) {
-    left: 6px;
-    top: 18px;
-  }
-  .nav-icon-1.open span:nth-child(6) {
-    right: 6px;
-    top: 6px;
-  }
-  .nav-icon-1.open span:nth-child(8) {
-    left: 18px;
-    bottom: 6px;
-  }

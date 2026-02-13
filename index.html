@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ianmarder.com/">
+  <meta property="og:title" content="Ian Marder — Creative Lead & Designer">
+  <meta property="og:description" content="Clear ideas, sharp execution. Portfolio of Ian Marder.">
+  <meta property="og:image" content="https://ianmarder.com/assets/images/og-share.jpg">
   <title>Ian Marder</title>
   <meta name="description" content="Ian Marder — Creative Lead & Designer">
 
@@ -12,26 +16,7 @@
 
 <body>
 
-<header class="site-header">
-  <div class="logo"><a href="index.html"><img src="assets/images/logo.png"></a></div>
-  <nav>
-    <a href="work/">Work</a>
-    <a href="about/">About</a>
-    <a href="contact/">Contact</a>
-  </nav>
-  <div class="icon nav-icon-1">
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-
-</header>
+<header class="site-header" data-include="components/header.html"></header>
 
 <main>
 
@@ -49,24 +34,35 @@
     <div class="grid">
 
       <a href="#" class="card">
+        <div class="meta-bottom">
+          <span class="date">2025</span>
+        </div>
         <img src="assets/images/project1.jpg" alt="">
-        <div class="meta">
+        <div class="meta-top">
           <span class="title">The Green Griffin</span>
           <span class="type">Branding System</span>
         </div>
+        
+        
       </a>
 
       <a href="#" class="card">
+        <div class="meta-bottom">
+          <span class="date">2025</span>
+        </div>
         <img src="assets/images/project2.png" alt="">
-        <div class="meta">
+        <div class="meta-top">
           <span class="title">Achievers</span>
           <span class="type">In-house Designer</span>
         </div>
       </a>
 
       <a href="#" class="card">
+        <div class="meta-bottom">
+          <span class="date">2025</span>
+        </div>
         <img src="assets/images/project3.png" alt="">
-        <div class="meta">
+        <div class="meta-top">
           <span class="title">Captivate Collective</span>
           <span class="type">Digital Campaigns</span>
         </div>
@@ -83,21 +79,10 @@
       Powered by coffee, 2 kids, and lots of keyboards.
     </p>
   </section>
-
-  <!-- CONTACT -->
-  <section id="contact" class="contact">
-    <p>
-      <a class="animated" href="mailto:hellothere@ianmarder.com">→ Email</a><br>
-      <a class="animated" href="https://www.linkedin.com/in/ianmarder/">→ LinkedIn</a>
-    </p>
-  </section>
-
 </main>
 
-<footer class="site-footer">
-  © <span id="year"></span> Ian Marder
-</footer>
+<footer class="site-footer" data-include="../components/footer.html"></footer>
 
-<script src="assets/js/main.js"></script>
+<script src="../assets/js/main.js"></script>
 </body>
 </html>

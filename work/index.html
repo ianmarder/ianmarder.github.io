@@ -3,45 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Ian Marder</title>
-  <meta name="description" content="Ian Marder — Creative Lead & Designer">
-
- <link rel="stylesheet" href="assets/css/styles.css" />
+  <title>Work — Ian Marder</title>
+  <link rel="stylesheet" href="../assets/css/styles.css" />
 </head>
-
 <body>
 
-<header class="site-header">
-  <div class="logo"><a href="index.html"><img src="assets/images/logo.png"></a></div>
+<header class="site-header" data-include="../components/header.html"></header>
 
-  <nav>
-    <a href="work/">Work</a>
-    <a href="about/">About</a>
-    <a href="contact/">Contact</a>
-  </nav>
-  <div class="icon nav-icon-1">
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
+<main class="work-experience">
+  <section class="project-drawer" onclick="toggleDrawer(this)">
+    <div class="drawer-header">
+      <div class="project-identity">
+        <img src="../assets/images/project1.jpg" alt="" class="mini-logo">
+        <h2 class="project-title">The Green Griffin</h2>
+      </div>
+      <span class="status-icon">↓</span>
+    </div>
+    
+    <div class="drawer-content">
+      <div class="case-study-grid">
+        <div class="case-box">
+          <h3>Challenge</h3>
+          <p>The client needed a way to translate complex sustainability data into a visual brand that felt human and approachable.</p>
+        </div>
+        <div class="case-box">
+          <h3>Solution</h3>
+          <p>We developed a modular identity system using organic textures and a high-contrast palette to highlight key impact metrics.</p>
+        </div>
+        <div class="case-box">
+          <h3>Results</h3>
+          <p>A 25% increase in investor engagement and a brand system that scales across print and digital effortlessly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-</header>
+  </main>
 
-<main>
+<footer class="site-footer" data-include="../components/footer.html"></footer>
 
-</main>
-
-<footer class="site-footer">
-  © <span id="year"></span> Ian Marder
-</footer>
-
-<script src="assets/js/main.js"></script>
+<script src="../assets/js/main.js"></script>
 </body>
 </html>
