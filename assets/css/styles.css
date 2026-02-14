@@ -462,6 +462,7 @@ display: flex;
 /* Content Area (Right side) */
 .card-content {
   flex: 1;
+
   display: flex;
   flex-direction: column;
 }
@@ -469,12 +470,11 @@ display: flex;
 .project-name {
   font-family: 'Oswald', sans-serif;
   font-size: 2.2rem;
+  line-height: 120%;
   text-transform: uppercase;
-  margin: 0.5rem 0 1rem 0;
 }
 
 .project-description {
-  margin-bottom: 2rem;
   opacity: 0.8;
   line-height: 1.6;
 }
@@ -484,30 +484,40 @@ display: flex;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: auto;
 }
 
 /* View Project Button */
 .view-project-btn {
   font-weight: 600;
-  font-size: 0.9rem;
-  color: #0090CC;
+  font-size: 1rem;
+  color: white;
+  margin-left: -4px;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  background-color: #0090CC;
+  border-radius: 100px;
+  padding: 0.5rem 1rem;
   text-transform: uppercase;
   letter-spacing: 0.05rem;
   transition: gap 0.2s ease;
-  display: inline-flex; /* Corrected from 'flexend' */
+  display: inline-flex;
   align-items: center;
   gap: 4px;
+  transition: all .2s;
 }
 
 .view-project-btn:hover {
   gap: 8px;
+  background-color:#16516A
 }
 
 .tag-row {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+
+  margin-bottom: 0.5rem;
+  margin-left: -4px;
 }
 
 .tag {
@@ -531,7 +541,7 @@ display: flex;
   flex: 1;
   flex-direction: column; /* Stack image/text vertically within the narrow card */
   align-items: flex-start;
-  gap: 1.5rem;
+
 }
 
 .wide-card.half .card-hero {
