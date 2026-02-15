@@ -306,11 +306,82 @@ a {
   opacity: 0.8;
 }
 
-/* About Strip */
-.about {
-  max-width: 700px;
+/* ==========================================================================
+   HOMEPAGE ABOUT STRIP
+   ========================================================================== */
+
+.about-strip {
+  border-top: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 8rem 0; /* Vertical breathing room */
   margin: 4rem auto;
-  font-size: 1.1rem;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.statement-main {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  color: #111;
+}
+
+.statement-sub {
+  font-size: 1.2rem;
+  color: #666;
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+/* The "Specs" side */
+.about-specs {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-left: 3rem;
+  border-left: 1px solid #f0f0f0;
+}
+
+.spec-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.spec-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  color: #0090CC; /* Brand Blue */
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.spec-value {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  color: #333;
+}
+
+/* Mobile Layout */
+@media (max-width: 900px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .about-specs {
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 3rem;
+  }
 }
 
 /* Link Animations */
