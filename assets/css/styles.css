@@ -75,6 +75,42 @@ a {
   transition-delay: var(--delay, 0ms) !important;
 }
 
+/* ------------- */
+/* Placeholders */
+/* ------------*/
+
+/* Placeholder System */
+.placeholder {
+  background-color: #e0e0e0; /* The light-grey square */
+  width: 100%;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+/* Maintain aspect ratios for different image types */
+.placeholder.square {aspect-ratio: 1 / 1;}
+.placeholder.wide {aspect-ratio: 16 / 9;}
+.placeholder.hero {aspect-ratio: 21 / 9;}
+
+/* Subtle pulse animation to show it's a "loading" state */
+.placeholder::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: placeholderPulse 2s infinite;
+}
+
+@keyframes placeholderPulse {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
 
 /* ==========================================================================
    3. HEADER & NAV
@@ -691,7 +727,7 @@ a.animated:hover {
 .project-gallery {
   display: flex;
   flex-direction: column;
-  gap: 4rem;
+  gap: 6rem;
   max-width: var(--content-width);
   margin: 0 auto;
 }
@@ -710,7 +746,7 @@ a.animated:hover {
 .gallery-grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  gap: 3rem;
 }
 
 .gallery-grid-2 img {
@@ -721,33 +757,49 @@ a.animated:hover {
 /* Bottom Navigation */
 .project-nav {
   padding: 8rem 0;
-  text-align: center;
   border-top: 1px solid #f0f0f0;
-  max-width: var(--content-width);
-  margin: 0 auto;
+  margin-top: 6rem;
 }
 
 .next-link {
-  display: inline-block;
-  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .nav-label {
   display: block;
-  font-size: 0.9rem;
-  color: #888;
-  margin-bottom: 0.5rem;
-}
-
-.next-title {
-  font-family: 'Oswald', sans-serif;
-  font-size: 3rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  color: #888;
+  font-weight: 600;
 }
 
-.next-link:hover {
-  transform: translateY(-5px);
+.project-nav .col-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.previous-title, .next-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.2rem, 3vw, 2.5rem);
+  text-transform: uppercase;
+  color: #111;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.previous-title:hover {
   color: #0090CC;
+  transform: translateX(-10px);
+}
+
+.next-title:hover {
+  color: #0090CC;
+  transform: translateX(10px);
 }
 
 /* Mobile Adjustments */

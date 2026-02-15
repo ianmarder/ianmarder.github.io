@@ -10,15 +10,16 @@ async function includeHTML() {
         const content = await response.text();
         el.innerHTML = content;
 
-        // If we just loaded the header, initialize the nav logic
+        // Header Logic
         if (file.includes('header')) {
           setupNav();
         }
         
-        // If we just loaded the footer, update the year
+        // Footer Logic
         if (file.includes('footer')) {
           const yearEl = document.getElementById('year');
           if (yearEl) yearEl.textContent = new Date().getFullYear();
+          initCopyEmail(); // Initialize the copy feature
         }
       }
     } catch (err) {
@@ -27,7 +28,30 @@ async function includeHTML() {
   }
 }
 
-// Separate Nav Logic to keep it clean
+// 1. Copy Email to Clipboard Logic
+function initCopyEmail() {
+  const emailBtn = document.querySelector('.footer-button');
+  if (!emailBtn) return;
+
+  emailBtn.addEventListener('click', (e) => {
+    // Optional: Uncomment the line below to prevent the mail app from opening
+    // e.preventDefault(); 
+    
+    const email = "hellothere@ianmarder.com";
+    navigator.clipboard.writeText(email).then(() => {
+      const originalText = emailBtn.textContent;
+      emailBtn.textContent = "Email Copied!";
+      emailBtn.style.backgroundColor = "#28a745"; // Success green
+
+      setTimeout(() => {
+        emailBtn.textContent = originalText;
+        emailBtn.style.backgroundColor = ""; // Reset to CSS default
+      }, 2000);
+    });
+  });
+}
+
+// 2. Navigation Logic
 function setupNav() {
   const menu = document.querySelector('#mobile-menu');
   const navLinks = document.querySelector('.nav-menu');
@@ -40,69 +64,46 @@ function setupNav() {
   }
 }
 
-// Drawer Toggle Logic for the Work page
-function toggleDrawer(selectedDrawer) {
-  document.querySelectorAll('.project-drawer').forEach(drawer => {
-    if (drawer !== selectedDrawer) {
-      drawer.classList.remove('is-open');
-    }
-  });
-  selectedDrawer.classList.toggle('is-open');
-}
-
-let slideIndex = 0;
-
-// Fade in / slide up JS
-
+// 3. Animation Observer
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       const el = entry.target;
-
-      // Optional delay support
       const delay = el.dataset.delay;
       if (delay) {
         el.style.setProperty("--delay", delay + "ms");
       }
-
       el.classList.add("is-visible");
-      observer.unobserve(el); // animate once
+      observer.unobserve(el);
     }
   });
-}, {
-  threshold: 0.20
-});
+}, { threshold: 0.20 });
 
 document.querySelectorAll(".reveal").forEach(el => {
   observer.observe(el);
 });
 
+// 4. Ken Burns Slideshow
+let slideIndex = 0;
 function showSlides() {
   const slides = document.querySelectorAll(".slide");
   if (slides.length === 0) return;
 
-  // Find the currently active slide
   const currentActive = document.querySelector(".slide.active");
   
-  // Calculate next index
   slideIndex++;
   if (slideIndex > slides.length) { slideIndex = 1; }
 
-  // 1. Remove active class from previous
   if (currentActive) {
       currentActive.classList.remove("active");
   }
 
-  // 2. Add active class to next
   slides[slideIndex - 1].classList.add("active");
-
-  // Keep the timing long enough to enjoy the zoom
   setTimeout(showSlides, 7000); 
 }
 
-
-
-document.addEventListener('DOMContentLoaded', () => {
-  includeHTML();
-  showSlides(); // Start the carousel
+// 5. Initialize All
+document.addEventListener('DOMContentLoaded', async () => {
+  await includeHTML(); // Wait for header/footer to be in the DOM
+  showSlides(); 
 });
