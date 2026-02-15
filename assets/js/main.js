@@ -52,6 +52,31 @@ function toggleDrawer(selectedDrawer) {
 
 let slideIndex = 0;
 
+// Fade in / slide up JS
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+
+      // Optional delay support
+      const delay = el.dataset.delay;
+      if (delay) {
+        el.style.setProperty("--delay", delay + "ms");
+      }
+
+      el.classList.add("is-visible");
+      observer.unobserve(el); // animate once
+    }
+  });
+}, {
+  threshold: 0.20
+});
+
+document.querySelectorAll(".reveal").forEach(el => {
+  observer.observe(el);
+});
+
 function showSlides() {
   const slides = document.querySelectorAll(".slide");
   if (slides.length === 0) return;
@@ -74,6 +99,8 @@ function showSlides() {
   // Keep the timing long enough to enjoy the zoom
   setTimeout(showSlides, 7000); 
 }
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
   includeHTML();

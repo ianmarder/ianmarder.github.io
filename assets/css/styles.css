@@ -2,6 +2,11 @@
    1. FONTS & VARIABLES
    ========================================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;500&family=Oswald:wght@400;500&display=swap');
+:root {
+  --content-width: 1100px; /* Tightening this slightly for a more editorial feel */
+  --site-margin: 5%;      /* Consistent horizontal padding */
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -17,13 +22,16 @@ body {
   overflow: auto;
 }
 
+/* Apply to the main wrapper */
 main {
-  max-width: 1200px;
+  max-width: var(--content-width);
   margin: 0 auto;
+  padding-left: var(--site-margin);
+  padding-right: var(--site-margin);
 }
 
 section {
-  padding: 6rem 2rem;
+  padding: 6rem 0; /* Vertical padding only, margin handled by main */
 }
 
 a {
@@ -43,6 +51,31 @@ a {
   background: #16516A;
 }
 
+/* ------------------ */
+/* Reveal Animations */
+/* ---------------- */
+
+
+/* Base hidden state */
+.reveal {
+  opacity: 0%;
+  transform: translateY(24px);
+  transition: opacity 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6), transform 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6) !important;
+  will-change: opacity, transform;
+}
+
+/* Visible state */
+.reveal.is-visible {
+  opacity: 100%;
+  transform: translateY(0);
+}
+
+/* Optional: stagger helper */
+.reveal[data-delay] {
+  transition-delay: var(--delay, 0ms) !important;
+}
+
+
 /* ==========================================================================
    3. HEADER & NAV
    ========================================================================== */
@@ -59,12 +92,12 @@ a {
 }
 
 .header-container {
-  max-width: 1200px;
+  max-width: var(--content-width);
   margin: 0 auto;
+  padding: 1.5rem var(--site-margin);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 2rem;
 }
 
 /* Desktop Nav ( > 768px ) */
@@ -169,7 +202,8 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 8rem 3rem 5rem;
+  padding: 16rem 2rem 12rem;
+  max-width: var(--content-width);
 }
 
 .intro-text {
@@ -206,12 +240,13 @@ a {
   width: 100%;
   display: block;
   border-radius: 12px;
-  transition: all 0.25s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+  transition: scale 0.2s cubic-bezier(0.68, -0.6, 0.32, 1.6), border-radius 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6), opacity 0.2s ease;
   overflow: hidden;
 }
 
 .card:hover img {
   border-radius: 24px;
+  opacity: 90%; /* Excecute order 66 */
 }
 
 .card:active img {
@@ -265,17 +300,13 @@ a.animated:hover {
    ========================================================================== */
 
 .about-grid-container {
-display: flex;
+  display: flex;
   gap: 4rem;
-  padding: 10rem 3rem 8rem;
-  max-width: 1400px;
-  /* Key change: Aligns all columns to the bottom */
+  padding: 10rem 0 8rem; /* Reset padding to follow the global grid */
+  max-width: var(--content-width);
+  margin: 0 auto;
   align-items: flex-end; 
-  
-  /* Ensures everything stays anchored left */
   justify-content: flex-start; 
-  
-  /* Gives the container enough height to feel like a "bottom" alignment */
   min-height: 80vh;
 }
 
@@ -403,7 +434,7 @@ display: flex;
   to { transform: scale(1.3); } /* Larger scale + longer duration = smoother */
 }
 /* ==========================================================================
-   5. WORK PAGE
+   6. WORK PAGE
    ========================================================================== */
 .work-page {
   padding-top: 8rem; /* Increased to give the fixed header more breathing room */
@@ -435,14 +466,17 @@ display: flex;
   background-color: #f8f9fa;
   padding: 2.5rem;
   border-radius: 32px;
-  transition: transform 0.3s ease, background-color 0.3s ease;
+  transition: scale 0.2s cubic-bezier(0.68, -0.6, 0.32, 1.6), border-radius 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   min-height: 400px; /* Keeps height consistent across different content lengths */
   box-sizing: border-box;
+  img {
+    transition: opacity 0.2s ease;
+  }
 }
 
 .wide-card:hover {
-  background-color: #f1f3f5;
-  transform: translateY(-4px);
+  border-radius: 24px;
+    opacity: 90%; /* Excecute order 66 */
 }
 
 /* Card Hero (Left side) */
@@ -472,6 +506,7 @@ display: flex;
   font-size: 2.2rem;
   line-height: 120%;
   text-transform: uppercase;
+  margin:8px 0px 2px 0px;
 }
 
 .project-description {
@@ -580,19 +615,170 @@ display: flex;
 }
 
 /* ==========================================================================
-   6. NEW FOOTER FROM SCRATCH
+   7. Project Templating
+   ========================================================================== */
+
+
+/* Project Detail Styles */
+
+
+.project-hero {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding-top: 10rem;
+  padding-bottom: 2rem;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin-bottom: 4rem;
+}
+
+.project-category {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  color: #0090CC;
+  font-weight: 600;
+}
+
+.project-hero h1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(3rem, 8vw, 6rem);
+  text-transform: uppercase;
+  line-height: 0.9;
+  margin: 1.5rem 0;
+}
+
+.project-lead {
+  font-size: 1.5rem;
+  line-height: 1.4;
+  opacity: 0.8;
+}
+
+.hero-image-full img {
+  width: 100%;
+  border-radius: 24px;
+}
+
+/* Info Grid */
+.project-info-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  gap: 6rem;
+  padding: 6rem 0;
+}
+
+.info-block h3, .info-sidebar h4 {
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  margin-bottom: 1rem;
+}
+
+.info-sidebar {
+  border-left: 1px solid #f0f0f0;
+  padding-left: 3rem;
+}
+
+.sidebar-item {
+  margin-bottom: 2rem;
+}
+
+/* Gallery Logic */
+.project-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
+
+.gallery-item img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+/* Ensure full-width gallery images actually touch the grid edges */
+.gallery-item.full-width img {
+  width: 100%;
+  display: block;
+}
+
+.gallery-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.gallery-grid-2 img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+/* Bottom Navigation */
+.project-nav {
+  padding: 8rem 0;
+  text-align: center;
+  border-top: 1px solid #f0f0f0;
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
+
+.next-link {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.nav-label {
+  display: block;
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+
+.next-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 3rem;
+  text-transform: uppercase;
+}
+
+.next-link:hover {
+  transform: translateY(-5px);
+  color: #0090CC;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .project-info-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .info-sidebar {
+    border-left: none;
+    padding-left: 0;
+  }
+  .gallery-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   8. NEW FOOTER FROM SCRATCH
    ========================================================================== */
 
 .site-footer {
   background-color: #0b1120;
   color: #ffffff;
-  position: relative;
-  padding: 0 5% 60px 5%;
-  margin-top: 120px; /* Space for the wave to overlap */
+  padding: 80px var(--site-margin) 40px;
+  text-align: center;
 }
 
+
 .footer-container {
-  max-width: 1200px;
+  max-width: var(--content-width) !important;
   margin: 0 auto;
 }
 
@@ -620,6 +806,7 @@ display: flex;
 .copyright {
   font-size: 0.8rem;
   color: #8892b0;
+  float: left;
   margin: 0;
 }
 
@@ -660,6 +847,8 @@ display: flex;
   opacity: 1 !important;
 }
 
+
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .footer-row {
@@ -675,7 +864,74 @@ display: flex;
 }
 
 /* ==========================================================================
-   7. RESPONSIVE MEDIA QUERIES
+   7. 404 ERROR PAGE
+   ========================================================================== */
+
+.error-page main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh; /* Ensures it sits in the middle of the screen */
+  text-align: center;
+}
+
+.error-container {
+  max-width: 600px;
+}
+
+.error-code {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(6rem, 15vw, 10rem);
+  line-height: 1;
+  margin: 0;
+  color: #f0f0f0; /* Subtle ghost-like text */
+  letter-spacing: -0.5rem;
+}
+
+.error-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2rem;
+  text-transform: uppercase;
+  margin-top: -2rem; /* Pulls the title into the large 404 numbers */
+  margin-bottom: 1.5rem;
+}
+
+.error-message {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+.error-button {
+  display: inline-block;
+  background-color: #427df2;
+  color: white !important;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.error-button:hover {
+  background-color: #3166d6;
+  transform: translateY(-2px);
+}
+
+/* Mobile Tweak */
+@media (max-width: 768px) {
+  .error-code {
+    margin-bottom: 1rem;
+  }
+  .error-title {
+    margin-top: 0;
+  }
+}
+
+/* ==========================================================================
+   10. RESPONSIVE MEDIA QUERIES
    ========================================================================== */
 @media (max-width: 900px) {
   .grid {
