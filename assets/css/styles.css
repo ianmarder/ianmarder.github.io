@@ -24,10 +24,10 @@ body {
 
 /* Apply to the main wrapper */
 main {
-  max-width: var(--content-width);
+  max-width: var(--content-width) !important;
   margin: 0 auto;
-  padding-left: var(--site-margin);
-  padding-right: var(--site-margin);
+  padding-left: var(--site-margin)!important;
+  padding-right: var(--site-margin) !important;
 }
 
 section {
@@ -312,7 +312,6 @@ a {
 
 .about-strip {
   border-top: 1px solid #f0f0f0;
-  border-bottom: 1px solid #f0f0f0;
   padding: 8rem 0; /* Vertical breathing room */
   margin: 4rem auto;
 }
@@ -540,6 +539,70 @@ a.animated:hover {
   from { transform: scale(1); }
   to { transform: scale(1.3); } /* Larger scale + longer duration = smoother */
 }
+
+/* 1. The Wrapper Word */
+.word-trigger {
+  position: relative;
+  display: inline-block; /* Critical for positioning the image */
+  color: #0090CC; 
+  font-weight: 700;
+  cursor: help;
+  white-space: nowrap;
+}
+
+/* 2. The Floating Box */
+.hover-box {
+  position: absolute;
+  bottom: -420%; /* Sits clearly above the text */
+  left: 50%;
+  transform: translateX(-50%) translateY(10px); /* Start slightly lower for the "float up" effect */
+  
+  width: 160px; /* Adjust as needed */
+  border-radius: 12px;
+  overflow: hidden;
+  
+  /* Visuals */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none; /* Prevents the image from flickering if the mouse hits it */
+  
+  /* Animation */
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 9999; /* Ensure it's above all other site content */
+}
+
+.hover-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 3. The Reveal Interaction */
+.word-trigger:hover .hover-box {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+.word-trigger:active .hover-box{
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* 4. The Little Arrow Tip */
+.hover-box::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -8px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: #111 transparent transparent transparent;
+}
+
+
 /* ==========================================================================
    6. WORK PAGE
    ========================================================================== */
@@ -820,9 +883,20 @@ a.animated:hover {
   gap: 3rem;
 }
 
+.gallery-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 3rem;
+}
+
 .gallery-grid-2 img {
   width: 100%;
   border-radius: 12px;
+}
+
+.gallery-grid-3 img {
+  width: 100%;
+  border-radius: 8px;
 }
 
 /* Bottom Navigation */
@@ -886,10 +960,13 @@ a.animated:hover {
   .gallery-grid-2 {
     grid-template-columns: 1fr;
   }
+  .gallery-grid-3 {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ==========================================================================
-   8. NEW FOOTER FROM SCRATCH
+   8. FOOTER
    ========================================================================== */
 
 .site-footer {
@@ -968,6 +1045,10 @@ a.animated:hover {
   border-radius: 50px;
   font-weight: 600;
   opacity: 1 !important;
+}
+
+.footer-btn .activted{
+  box-shadow: 0px 0px 96px 24px #427df2, 0px 0px 8px 1px #89b1ff inset;
 }
 
 
