@@ -947,6 +947,68 @@ a.animated:hover {
   transform: translateX(10px);
 }
 
+/* Achievers Centre video fixes */
+
+/* Ensure the video fills the placeholder container */
+.placeholder video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Keeps the 16:9 ratio clean */
+  display: block;
+  border-radius: 20px;
+}
+
+/* Hide the pulse animation once the content is loaded or if it contains a video */
+.placeholder:has(video)::after {
+  display: none;
+}
+
+/* Fix for the 'reveal' animation—if JS isn't triggering, 
+   you won't see anything. For testing, you can set opacity to 1. */
+.reveal.is-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* The "AchieversCenter" Broadcast Look */
+.achievers-center-theme {
+  --broadcast-red: #ff3b30;
+  --broadcast-dark: #0a0a0a;
+}
+
+/* ID Cards / Name Plates Styling */
+.id-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.placeholder.id-card {
+  border: 2px solid #f0f0f0;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  aspect-ratio: 3 / 2; /* Standard ID card / Lower-third ratio */
+}
+
+.placeholder.id-card:hover {
+  border-color: var(--broadcast-red);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Announcer / Voiceover Section */
+.voiceover-showcase {
+  background: #f8f9fa;
+  padding: 3rem;
+  border-radius: 24px;
+  border-left: 8px solid #0090CC;
+  margin: 2rem 0;
+}
+
+.voiceover-showcase h3 {
+  margin-top: 0;
+  color: #111;
+}
+
 /* Mobile Adjustments */
 @media (max-width: 768px) {
   .project-info-grid {
