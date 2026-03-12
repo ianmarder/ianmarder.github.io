@@ -88,10 +88,10 @@ a {
 }
 
 .placeholder > img,
-.placeholder video {
+.placeholder > video,
+.placeholder > iframe {
   width: 100%;
   height: 100%;
-  object-fit: cover;
   display: block;
   border-radius: inherit;
 }
@@ -119,8 +119,8 @@ a {
   animation: placeholderPulse 2s infinite;
 }
 
-.placeholder:has(video)::after,
-.placeholder:has(video)::before {
+.placeholder:has(video, img, iframe)::after,
+.placeholder:has(video, img, iframe)::before {
   display: none;
 }
 
