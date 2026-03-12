@@ -19,7 +19,7 @@ async function includeHTML() {
         if (file.includes('footer')) {
           const yearEl = document.getElementById('year');
           if (yearEl) yearEl.textContent = new Date().getFullYear();
-          initCopyEmail(); // Initialize the copy feature
+          initCopyEmail(); 
         }
       }
     } catch (err) {
@@ -30,23 +30,31 @@ async function includeHTML() {
 
 // 1. Copy Email to Clipboard Logic
 function initCopyEmail() {
-  const emailBtn = document.querySelector('.footer-button');
-  if (!emailBtn) return;
+  // Select both footer and header buttons
+  const emailBtns = document.querySelectorAll('.footer-btn, .header-btn');
+  if (emailBtns.length === 0) return;
 
-  emailBtn.addEventListener('click', (e) => {
-    // Optional: Uncomment the line below to prevent the mail app from opening
-    // e.preventDefault(); 
-    
-    const email = "hellothere@ianmarder.com";
-    navigator.clipboard.writeText(email).then(() => {
-      const originalText = emailBtn.textContent;
-      emailBtn.textContent = "Email Copied!";
-      emailBtn.style.backgroundColor = "#28a745"; // Success green
+  // Loop through every button found and attach the click event
+  emailBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault(); // Prevents the mail app from opening when copying
+      
+      const email = "hellothere@ianmarder.com";
+      navigator.clipboard.writeText(email).then(() => {
+        const originalText = btn.textContent;
+        
+        // Success state
+        btn.textContent = "Email Copied!";
+        btn.style.backgroundColor = "#01CB84"; // Success green
+        btn.style.color = "#0b1120"; 
 
-      setTimeout(() => {
-        emailBtn.textContent = originalText;
-        emailBtn.style.backgroundColor = ""; // Reset to CSS default
-      }, 2000);
+        // Reset state after 2 seconds
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.backgroundColor = ""; 
+          btn.style.color = ""; 
+        }, 2000);
+      });
     });
   });
 }
@@ -57,31 +65,42 @@ function setupNav() {
   const navLinks = document.querySelector('.nav-menu');
 
   if (menu && navLinks) {
+    // Toggle menu open/closed
     menu.addEventListener('click', () => {
       menu.classList.toggle('is-active');
       navLinks.classList.toggle('active');
+    });
+
+    // Close menu when a link is clicked
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('is-active');
+        navLinks.classList.remove('active');
+      });
     });
   }
 }
 
 // 3. Animation Observer
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const el = entry.target;
-      const delay = el.dataset.delay;
-      if (delay) {
-        el.style.setProperty("--delay", delay + "ms");
+function initObserver() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const delay = el.dataset.delay;
+        if (delay) {
+          el.style.setProperty("--delay", delay + "ms");
+        }
+        el.classList.add("is-visible");
+        observer.unobserve(el);
       }
-      el.classList.add("is-visible");
-      observer.unobserve(el);
-    }
-  });
-}, { threshold: 0.20 });
+    });
+  }, { threshold: 0.15 }); // Slightly lowered threshold for better mobile triggering
 
-document.querySelectorAll(".reveal").forEach(el => {
-  observer.observe(el);
-});
+  document.querySelectorAll(".reveal").forEach(el => {
+    observer.observe(el);
+  });
+}
 
 // 4. Ken Burns Slideshow
 let slideIndex = 0;
@@ -105,5 +124,6 @@ function showSlides() {
 // 5. Initialize All
 document.addEventListener('DOMContentLoaded', async () => {
   await includeHTML(); // Wait for header/footer to be in the DOM
+  initObserver();      // Initialize animations AFTER includes are loaded
   showSlides(); 
 });

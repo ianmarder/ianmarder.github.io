@@ -2,86 +2,84 @@
    1. FONTS & VARIABLES
    ========================================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;500&family=Oswald:wght@400;500&display=swap');
+
 :root {
-  --content-width: 1100px; /* Tightening this slightly for a more editorial feel */
-  --site-margin: 5%;      /* Consistent horizontal padding */
+  /* Layout */
+  --content-width: 1100px;
+  --site-margin: 5%;
+  
+  /* Colors */
+  --text-main: #111;
+  --text-muted: #666;
+  --text-light: #888;
+  --brand-blue: #14AAE1;
+  --brand-blue-hover: #7CD4F4;
+  --brand-dark: #07374B;
+  --accent-blue: #427df2;
+  --accent-blue-hover: #3166d6;
+  --accent-green: #01CB84;
+  --border-light: #f0f0f0;
+  --bg-light: #f8f9fa;
+  --bg-dark: #0b1120;
 }
 
 html {
   scroll-behavior: smooth;
 }
+
 /* ==========================================================================
    2. RESET & GLOBAL STYLES
    ========================================================================== */
 body {
   font-family: 'Cabin', sans-serif;
   font-optical-sizing: auto;
-  color: #111;
+  color: var(--text-main);
   line-height: 1.5;
   margin: 0;
-  overflow: auto;
+  overflow-x: hidden;
 }
 
-/* Apply to the main wrapper */
 main {
   max-width: var(--content-width) !important;
   margin: 0 auto;
-  padding-left: var(--site-margin)!important;
-  padding-right: var(--site-margin) !important;
+  padding: 0 var(--site-margin);
 }
 
 section {
-  padding: 6rem 0; /* Vertical padding only, margin handled by main */
+  padding: 6rem 0;
 }
 
 a {
-  transition: all .25s;
+  transition: all .25s ease;
   text-decoration: none;
   color: inherit;
 }
 
 /* Text Selection */
-::-moz-selection {
-  color: white;
-  background: #16516A;
-}
+::-moz-selection { color: white; background: var(--brand-dark); }
+::selection { color: white; background: var(--brand-dark); }
 
-::selection {
-  color: white;
-  background: #16516A;
-}
-
-/* ------------------ */
-/* Reveal Animations */
-/* ---------------- */
-
-
-/* Base hidden state */
+/* --- Reveal Animations --- */
 .reveal {
-  opacity: 0%;
+  opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6), transform 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6) !important;
+  transition: opacity 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6), 
+              transform 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6) !important;
   will-change: opacity, transform;
 }
 
-/* Visible state */
 .reveal.is-visible {
-  opacity: 100%;
+  opacity: 1;
   transform: translateY(0);
 }
 
-/* Optional: stagger helper */
 .reveal[data-delay] {
   transition-delay: var(--delay, 0ms) !important;
 }
 
-/* ------------- */
-/* Placeholders */
-/* ------------*/
-
-/* Placeholder System */
+/* --- Placeholder System --- */
 .placeholder {
-  background-color: #e0e0e0; /* The light-grey square */
+  background-color: #e0e0e0;
   width: 100%;
   display: block;
   position: relative;
@@ -89,21 +87,41 @@ a {
   border-radius: 20px;
 }
 
-/* Maintain aspect ratios for different image types */
-.placeholder.square {aspect-ratio: 1 / 1;}
-.placeholder.wide {aspect-ratio: 16 / 9;}
-.placeholder.hero {aspect-ratio: 21 / 9;}
+.placeholder > img,
+.placeholder video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: inherit;
+}
 
-/* Subtle pulse animation to show it's a "loading" state */
-.placeholder::after {
+.placeholder.square { aspect-ratio: 1 / 1; }
+.placeholder.wide { aspect-ratio: 16 / 9; }
+.placeholder.hero { aspect-ratio: 21 / 9; }
+.placeholder.id-card { 
+  border: 2px solid var(--border-light);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  aspect-ratio: 3 / 2; 
+}
+
+.placeholder.id-card:hover {
+  border-color: var(--broadcast-red, red);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.placeholder::before {
   content: "";
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
   animation: placeholderPulse 2s infinite;
+}
+
+.placeholder:has(video)::after,
+.placeholder:has(video)::before {
+  display: none;
 }
 
 @keyframes placeholderPulse {
@@ -111,20 +129,16 @@ a {
   100% { transform: translateX(100%); }
 }
 
-
 /* ==========================================================================
    3. HEADER & NAV
    ========================================================================== */
-
-
-/* Header Container */
 .site-header {
   position: fixed;
   top: 0;
   width: 100%;
   background: rgba(255, 255, 255, 0.95);
   z-index: 1000;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border-light);
 }
 
 .header-container {
@@ -136,7 +150,9 @@ a {
   align-items: center;
 }
 
-/* Desktop Nav ( > 768px ) */
+.logo { height: 40px; }
+.logo img { height: 100%; }
+
 .nav-menu {
   display: flex;
   align-items: center;
@@ -145,28 +161,33 @@ a {
 
 .nav-menu a {
   font-weight: 500;
-  color: #111;
+  color: var(--text-main);
   font-size: 0.95rem;
 }
 
-.nav-button {
-  background: #0090CC;
-  color: #fff !important;
-  padding: 0.8rem 1.5rem;
+.nav-menu a:hover {
+  color: var(--brand-blue);
+}
+
+.header-btn {
+  display: inline-block;
+  background-color: var(--accent-blue);
+  color: white !important;
+  padding: 0.8rem 2rem;
   border-radius: 50px;
-  transition: transform 0.2s ease;
+  font-weight: 600;
+  opacity: 1 !important;
 }
 
-.nav-button:hover {
-  transform: translateY(-2px);
-  background: #0070a0;
+.header-btn .activted {
+  box-shadow: 0px 0px 96px 24px var(--accent-blue), 0px 0px 8px 1px #89b1ff inset;
 }
 
-/* Hamburger Hidden on Desktop */
 .menu-toggle {
   display: none;
   cursor: pointer;
   z-index: 1001;
+  position: relative;
 }
 
 .bar {
@@ -174,66 +195,13 @@ a {
   width: 25px;
   height: 2px;
   margin: 5px auto;
-  background-color: #111;
+  background-color: var(--text-main);
   transition: all 0.3s ease-in-out;
 }
 
-/* Ensure the hamburger stays on top of the mobile menu */
-.menu-toggle {
-  position: relative;
-  z-index: 1001;
-}
-
-/* Optional: Add a slight hover to nav links for better UX */
-.nav-menu a:hover {
-  color: #0090CC;
-}
-
-/* Mobile Nav ( <= 768px ) */
-@media (max-width: 768px) {
-  .menu-toggle { display: block; }
-
-  /* Hamburger to X Animation */
-  .menu-toggle.is-active .bar:nth-child(2) { opacity: 0; }
-  .menu-toggle.is-active .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .menu-toggle.is-active .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-  .nav-menu {
-    position: fixed;
-    flex-direction: column;
-    background-color: #fff;
-    width: 100%;
-    height: 100vh;
-    top: 0;
-    left: -100%; /* Start off-screen */
-    text-align: center;
-    transition: 0.3s;
-    justify-content: center;
-    padding-top: 80px;
-  }
-
-  .nav-menu.active {
-    left: 0;
-  }
-
-  .nav-menu a {
-    font-size: 2rem;
-    margin: 1.5rem 0;
-  }
-}
-
-.logo {
-  height: 40px;
-}
-
-.logo img {
-  height: 100%;
-}
 /* ==========================================================================
    4. HOMEPAGE COMPONENTS
    ========================================================================== */
-
-/* Intro Section */
 .intro {
   display: flex;
   justify-content: space-between;
@@ -242,9 +210,7 @@ a {
   max-width: var(--content-width);
 }
 
-.intro-text {
-  max-width: 600px;
-}
+.intro-text { max-width: 600px; }
 
 .intro h1 {
   font-family: 'Oswald', sans-serif;
@@ -261,10 +227,8 @@ a {
   line-height: 1.4;
 }
 
-/* Work Grid */
-.work {
-  padding-top: 1rem;
-}
+/* --- Work Grid --- */
+.work { padding-top: 1rem; }
 
 .grid {
   display: grid;
@@ -272,22 +236,41 @@ a {
   gap: 3rem 2.5rem;
 }
 
+
+
+/* Homepage Grid Cards */
 .card img {
   width: 100%;
+  height: 100%;
+  object-fit: cover; /* Forces the image to center and crop beautifully */
   display: block;
   border-radius: 12px;
-  transition: scale 0.2s cubic-bezier(0.68, -0.6, 0.32, 1.6), border-radius 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6), opacity 0.2s ease;
-  overflow: hidden;
+  transition: scale 0.2s cubic-bezier(0.68, -0.6, 0.32, 1.6), 
+              border-radius 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6), 
+              opacity 0.2s ease;
+}
+
+/* Add this block back right below your .card-hero definition! */
+.card-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-hero video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .card:hover img {
   border-radius: 24px;
-  opacity: 90%; /* Excecute order 66 */
+  opacity: 0.9; 
 }
 
-.card:active img {
-  scale: 96%;
-}
+.card:active img { scale: 0.96; }
 
 .meta-bottom {
   display: flex;
@@ -306,13 +289,10 @@ a {
   opacity: 0.8;
 }
 
-/* ==========================================================================
-   HOMEPAGE ABOUT STRIP
-   ========================================================================== */
-
+/* --- About Strip --- */
 .about-strip {
-  border-top: 1px solid #f0f0f0;
-  padding: 8rem 0; /* Vertical breathing room */
+  border-top: 1px solid var(--border-light);
+  padding: 8rem 0; 
   margin: 4rem auto;
 }
 
@@ -329,35 +309,31 @@ a {
   line-height: 1.1;
   text-transform: uppercase;
   margin-bottom: 1.5rem;
-  color: #111;
+  color: var(--text-main);
 }
 
 .statement-sub {
   font-size: 1.2rem;
-  color: #666;
+  color: var(--text-muted);
   max-width: 500px;
   line-height: 1.6;
 }
 
-/* The "Specs" side */
 .about-specs {
   display: flex;
   flex-direction: column;
   gap: 2rem;
   padding-left: 3rem;
-  border-left: 1px solid #f0f0f0;
+  border-left: 1px solid var(--border-light);
 }
 
-.spec-item {
-  display: flex;
-  flex-direction: column;
-}
+.spec-item { display: flex; flex-direction: column; }
 
 .spec-label {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.1rem;
-  color: #0090CC; /* Brand Blue */
+  color: var(--brand-blue);
   font-weight: 700;
   margin-bottom: 0.25rem;
 }
@@ -367,20 +343,6 @@ a {
   font-size: 1.5rem;
   text-transform: uppercase;
   color: #333;
-}
-
-/* Mobile Layout */
-@media (max-width: 900px) {
-  .about-grid {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-  }
-  .about-specs {
-    border-left: none;
-    padding-left: 0;
-    border-top: 1px solid #f0f0f0;
-    padding-top: 3rem;
-  }
 }
 
 /* Link Animations */
@@ -400,15 +362,13 @@ a.animated:hover {
   animation: highlight 0.25s forwards;
 }
 
-
 /* ==========================================================================
    5. ABOUT PAGE
    ========================================================================== */
-
 .about-grid-container {
   display: flex;
   gap: 4rem;
-  padding: 10rem 0 8rem; /* Reset padding to follow the global grid */
+  padding: 10rem 0 8rem !important; 
   max-width: var(--content-width);
   margin: 0 auto;
   align-items: flex-end; 
@@ -416,11 +376,8 @@ a.animated:hover {
   min-height: 80vh;
 }
 
-.about-col {
-  height: auto;
-}
+.about-col { height: auto; }
 
-/* Column 1: Intro/Origin */
 .col-1 {
   flex: 1;
   min-width: 300px;
@@ -440,14 +397,12 @@ a.animated:hover {
 
 .origin-text {
   font-size: 1.1rem;
-  color: #888;
+  color: var(--text-light);
   line-height: 1.6;
 }
 
-/* Columns 2 & 3: Narrative Wrapper */
 .col-narrative {
   flex: 2;
-  /* Keeps the lead text and bio columns together at the bottom */
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -458,18 +413,15 @@ a.animated:hover {
   line-height: 1.3;
   font-weight: 500;
   margin-bottom: 1rem;
-  color: #0090CC;
+  color: var(--brand-blue);
 }
 
-/* Inner Flex for the two narrative columns */
 .bio-columns {
   display: flex;
   gap: 3rem;
 }
 
-.bio-column-inner {
-  flex: 1;
-}
+.bio-column-inner { flex: 1; }
 
 .bio-column-inner p {
   font-size: 1.05rem;
@@ -478,20 +430,7 @@ a.animated:hover {
   opacity: 0.85;
 }
 
-/* RESPONSIVE OVERRIDES */
-@media (max-width: 1024px) {
-  .about-grid-container {
-    flex-direction: column;
-    padding-top: 6rem;
-  }
-  
-  .bio-columns {
-    flex-direction: column;
-    gap: 0;
-  }
-}
-
-/* Slideshow Styling */
+/* --- Slideshow Styling --- */
 .slideshow-container {
   position: relative;
   width: 100%;
@@ -499,76 +438,60 @@ a.animated:hover {
   overflow: hidden;
   margin-top: 2rem;
   border-radius: 8px;
-  background: #000; /* Darker background helps the crossfade look cleaner */
+  background: #000; 
 }
 
-/* Updated Slideshow Logic */
 .slide {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   opacity: 0;
-  /* Increase transition time to be smoother than the JS switch */
   transition: opacity 2.5s ease-in-out; 
   z-index: 1;
 }
 
 .slide.active {
   opacity: 1;
-  z-index: 2; /* Active slide sits on top */
+  z-index: 2;
 }
 
 .slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Apply animation to ALL images within slides, 
-     but control the play state to prevent CPU lag */
   animation: slowZoom 20s linear infinite;
   animation-play-state: paused;
 }
 
-/* Only play the zoom when the slide is active or fading out */
-.slide.active img {
-  animation-play-state: running;
-}
+.slide.active img { animation-play-state: running; }
 
 @keyframes slowZoom {
   from { transform: scale(1); }
-  to { transform: scale(1.3); } /* Larger scale + longer duration = smoother */
+  to { transform: scale(1.3); } 
 }
 
-/* 1. The Wrapper Word */
+/* --- Hover Words --- */
 .word-trigger {
   position: relative;
-  display: inline-block; /* Critical for positioning the image */
-  color: #0090CC; 
+  display: inline-block; 
+  color: var(--brand-blue); 
   font-weight: 700;
   cursor: help;
   white-space: nowrap;
 }
 
-/* 2. The Floating Box */
 .hover-box {
   position: absolute;
-  bottom: -420%; /* Sits clearly above the text */
+  bottom: -420%; 
   left: 50%;
-  transform: translateX(-50%) translateY(10px); /* Start slightly lower for the "float up" effect */
-  
-  width: 160px; /* Adjust as needed */
+  transform: translateX(-50%) translateY(10px); 
+  width: 160px; 
   border-radius: 12px;
   overflow: hidden;
-  
-  /* Visuals */
   opacity: 0;
   visibility: hidden;
-  pointer-events: none; /* Prevents the image from flickering if the mouse hits it */
-  
-  /* Animation */
+  pointer-events: none; 
   transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  z-index: 9999; /* Ensure it's above all other site content */
+  z-index: 9999; 
 }
 
 .hover-box img {
@@ -578,19 +501,13 @@ a.animated:hover {
   display: block;
 }
 
-/* 3. The Reveal Interaction */
-.word-trigger:hover .hover-box {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
-}
-.word-trigger:active .hover-box{
+.word-trigger:hover .hover-box,
+.word-trigger:active .hover-box {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0);
 }
 
-/* 4. The Little Arrow Tip */
 .hover-box::after {
   content: '';
   position: absolute;
@@ -599,20 +516,14 @@ a.animated:hover {
   margin-left: -8px;
   border-width: 8px;
   border-style: solid;
-  border-color: #111 transparent transparent transparent;
+  border-color: var(--text-main) transparent transparent transparent;
 }
-
 
 /* ==========================================================================
-   6. WORK PAGE
+   6. WORK PAGE & PROJECT LISTS
    ========================================================================== */
-.work-page {
-  padding-top: 8rem; /* Increased to give the fixed header more breathing room */
-}
-
-.work-intro {
-  margin-bottom: 4rem;
-}
+.work-page { padding-top: 8rem; }
+.work-intro { margin-bottom: 4rem; }
 
 .work-intro h1 {
   font-family: 'Oswald', sans-serif;
@@ -624,49 +535,43 @@ a.animated:hover {
 .project-list {
   display: flex;
   flex-direction: column;
-  gap: 3rem; /* Vertical margin between rows */
+  gap: 3rem; 
   padding-bottom: 8rem;
 }
 
-/* Wide Card Container */
 .wide-card {
   display: flex;
   align-items: center;
   gap: 3rem;
-  background-color: #f8f9fa;
+  background-color: var(--bg-light);
   padding: 2.5rem;
   border-radius: 32px;
-  transition: scale 0.2s cubic-bezier(0.68, -0.6, 0.32, 1.6), border-radius 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
-  min-height: 400px; /* Keeps height consistent across different content lengths */
+  transition: scale 0.2s cubic-bezier(0.68, -0.6, 0.32, 1.6), 
+              border-radius 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+  min-height: 400px; 
   box-sizing: border-box;
-  img {
-    transition: opacity 0.2s ease;
-  }
 }
+
+.wide-card img { transition: opacity 0.2s ease; }
 
 .wide-card:hover {
   border-radius: 24px;
-    opacity: 90%; /* Excecute order 66 */
+  opacity: 0.9;
 }
 
-/* Card Hero (Left side) */
 .card-hero {
   flex: 0 0 320px;
   aspect-ratio: 1 / 1;
   overflow: hidden;
   border-radius: 20px;
+  border: var(--text-light) 1px solid ;
+}
+.card-hero>img {
+  width:100%;
 }
 
-.card-hero img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Content Area (Right side) */
 .card-content {
   flex: 1;
-
   display: flex;
   flex-direction: column;
 }
@@ -674,9 +579,9 @@ a.animated:hover {
 .project-name {
   font-family: 'Oswald', sans-serif;
   font-size: 2.2rem;
-  line-height: 120%;
+  line-height: 1.2;
   text-transform: uppercase;
-  margin:8px 0px 2px 0px;
+  margin: 8px 0px 2px 0px;
 }
 
 .project-description {
@@ -684,14 +589,12 @@ a.animated:hover {
   line-height: 1.6;
 }
 
-/* Footer row inside the card */
 .card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* View Project Button */
 .view-project-btn {
   font-weight: 600;
   font-size: 1rem;
@@ -699,12 +602,11 @@ a.animated:hover {
   margin-left: -4px;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
-  background-color: #0090CC;
+  background-color: var(--brand-blue);
   border-radius: 100px;
   padding: 0.5rem 1rem;
   text-transform: uppercase;
   letter-spacing: 0.05rem;
-  transition: gap 0.2s ease;
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -713,14 +615,13 @@ a.animated:hover {
 
 .view-project-btn:hover {
   gap: 8px;
-  background-color:#16516A
+  background-color: var(--brand-dark);
 }
 
 .tag-row {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
-
   margin-bottom: 0.5rem;
   margin-left: -4px;
 }
@@ -731,67 +632,40 @@ a.animated:hover {
   text-transform: uppercase;
   letter-spacing: 0.05rem;
   padding: 0.5rem 1rem;
-  background: #cef0ff;
+  background: #dbf5ff;
   border-radius: 50px;
-  color: #0070a0;
+  color: var(--brand-dark);
 }
 
-/* 5th Row Grid Logic */
+/* Half Card Layout */
 .half-row {
   display: flex;
-  gap: 3rem; /* Horizontal gap matches the vertical gap of the list */
+  gap: 3rem; 
 }
 
 .wide-card.half {
   flex: 1;
-  flex-direction: column; /* Stack image/text vertically within the narrow card */
+  flex-direction: column; 
   align-items: flex-start;
-
 }
 
 .wide-card.half .card-hero {
   flex: 0 0 auto;
   width: 100%;
-  height: 250px; /* Shorter image for the split layout */
+  height: 250px; 
 }
 
-.wide-card.half .project-name {
-  font-size: 1.8rem;
-}
+.wide-card.half .project-name { font-size: 1.8rem; }
 
-/* Responsive Tweak */
-@media (max-width: 1024px) {
-  .half-row {
-    flex-direction: column;
-  }
-  
-  .wide-card {
-    flex-direction: column;
-    padding: 2rem;
-    gap: 1.5rem;
-    min-height: auto;
-  }
-
-  .card-hero {
-    width: 100%;
-    flex: 0 0 auto;
-  }
-
-  .card-footer {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.5rem;
-  }
+.achievers-center-featured .project-date {
+  color: var(--brand-blue);
+  font-weight: 700;
+  letter-spacing: 0.05rem;
 }
 
 /* ==========================================================================
-   7. Project Templating
+   7. PROJECT TEMPLATING
    ========================================================================== */
-
-
-/* Project Detail Styles */
-
-
 .project-hero {
   max-width: var(--content-width);
   margin: 0 auto;
@@ -808,7 +682,7 @@ a.animated:hover {
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 0.1rem;
-  color: #0090CC;
+  color: var(--brand-blue);
   font-weight: 600;
 }
 
@@ -831,7 +705,6 @@ a.animated:hover {
   border-radius: 24px;
 }
 
-/* Info Grid */
 .project-info-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -849,15 +722,13 @@ a.animated:hover {
 }
 
 .info-sidebar {
-  border-left: 1px solid #f0f0f0;
+  border-left: 1px solid var(--border-light);
   padding-left: 3rem;
 }
 
-.sidebar-item {
-  margin-bottom: 2rem;
-}
+.sidebar-item { margin-bottom: 2rem; }
 
-/* Gallery Logic */
+/* --- Gallery --- */
 .project-gallery {
   display: flex;
   flex-direction: column;
@@ -871,7 +742,6 @@ a.animated:hover {
   border-radius: 12px;
 }
 
-/* Ensure full-width gallery images actually touch the grid edges */
 .gallery-item.full-width img {
   width: 100%;
   display: block;
@@ -889,20 +759,12 @@ a.animated:hover {
   gap: 3rem;
 }
 
-.gallery-grid-2 img {
-  width: 100%;
-  border-radius: 12px;
-}
+.gallery-grid-3 img { border-radius: 8px; }
 
-.gallery-grid-3 img {
-  width: 100%;
-  border-radius: 8px;
-}
-
-/* Bottom Navigation */
+/* --- Bottom Navigation --- */
 .project-nav {
   padding: 8rem 0;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid var(--border-light);
   margin-top: 6rem;
 }
 
@@ -917,7 +779,7 @@ a.animated:hover {
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.1rem;
-  color: #888;
+  color: var(--text-light);
   font-weight: 600;
 }
 
@@ -932,119 +794,51 @@ a.animated:hover {
   font-family: 'Oswald', sans-serif;
   font-size: clamp(1.2rem, 3vw, 2.5rem);
   text-transform: uppercase;
-  color: #111;
-  text-decoration: none;
+  color: var(--text-main);
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .previous-title:hover {
-  color: #0090CC;
+  color: var(--brand-blue);
   transform: translateX(-10px);
 }
 
 .next-title:hover {
-  color: #0090CC;
+  color: var(--brand-blue);
   transform: translateX(10px);
 }
 
-/* Achievers Centre video fixes */
-
-/* Ensure the video fills the placeholder container */
-.placeholder video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Keeps the 16:9 ratio clean */
-  display: block;
-  border-radius: 20px;
-}
-
-/* Hide the pulse animation once the content is loaded or if it contains a video */
-.placeholder:has(video)::after {
-  display: none;
-}
-
-/* Fix for the 'reveal' animation—if JS isn't triggering, 
-   you won't see anything. For testing, you can set opacity to 1. */
-.reveal.is-visible {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-}
-
-/* The "AchieversCenter" Broadcast Look */
-.achievers-center-theme {
-  --broadcast-red: #ff3b30;
-  --broadcast-dark: #0a0a0a;
-}
-
-/* ID Cards / Name Plates Styling */
 .id-card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
 }
 
-.placeholder.id-card {
-  border: 2px solid #f0f0f0;
-  transition: transform 0.3s ease, border-color 0.3s ease;
-  aspect-ratio: 3 / 2; /* Standard ID card / Lower-third ratio */
-}
-
-.placeholder.id-card:hover {
-  border-color: var(--broadcast-red);
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
-
-/* Announcer / Voiceover Section */
 .voiceover-showcase {
-  background: #f8f9fa;
+  background: var(--bg-light);
   padding: 3rem;
   border-radius: 24px;
-  border-left: 8px solid #0090CC;
+  border-left: 8px solid var(--brand-blue);
   margin: 2rem 0;
 }
 
-.voiceover-showcase h3 {
-  margin-top: 0;
-  color: #111;
-}
-
-/* Mobile Adjustments */
-@media (max-width: 768px) {
-  .project-info-grid {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-  }
-  .info-sidebar {
-    border-left: none;
-    padding-left: 0;
-  }
-  .gallery-grid-2 {
-    grid-template-columns: 1fr;
-  }
-  .gallery-grid-3 {
-    grid-template-columns: 1fr;
-  }
-}
+.voiceover-showcase h3 { margin-top: 0; color: var(--text-main); }
 
 /* ==========================================================================
    8. FOOTER
    ========================================================================== */
-
 .site-footer {
-  background-color: #0b1120;
+  background-color: var(--bg-dark);
   color: #ffffff;
   padding: 80px var(--site-margin) 40px;
-  text-align: center;
+  text-align: left;
 }
-
 
 .footer-container {
   max-width: var(--content-width) !important;
   margin: 0 auto;
 }
 
-/* Row & Column Flexbox */
 .footer-row {
   display: flex;
   justify-content: space-between;
@@ -1052,12 +846,8 @@ a.animated:hover {
   padding: 40px 0;
 }
 
-.row-top {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
+.row-top { border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
 
-
-/* Styling Column Content */
 .footer-logo {
   height: 30px;
   filter: brightness(0) invert(1);
@@ -1068,40 +858,28 @@ a.animated:hover {
 .copyright {
   font-size: 0.8rem;
   color: #8892b0;
-  float: left;
   margin: 0;
 }
 
-.col-socials{
+.col-socials, .col-nav {
   display: flex;
   gap: 24px;
-}
-
-.col-nav {
-  display: flex;
-  gap: 24px;
-  float: right;
+  align-items: center;
 }
 
 .footer-col a {
   color: #ffffff;
-  text-decoration: none;
   font-size: 0.9rem;
   opacity: 0.7;
 }
 
-.footer-col a:hover {
-  opacity: 1;
-}
+.footer-col a:hover { opacity: 1; }
 
-/* The CTA Button */
-.col-cta {
-  text-align: right;
-}
+.col-cta { text-align: right; }
 
 .footer-btn {
   display: inline-block;
-  background-color: #427df2;
+  background-color: var(--accent-blue);
   color: white !important;
   padding: 0.8rem 2rem;
   border-radius: 50px;
@@ -1109,48 +887,29 @@ a.animated:hover {
   opacity: 1 !important;
 }
 
-.footer-btn .activted{
-  box-shadow: 0px 0px 96px 24px #427df2, 0px 0px 8px 1px #89b1ff inset;
-}
-
-
-
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-  .footer-row {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 30px;
-  }
-  
-  .col-cta {
-    text-align: center;
-  }
+.footer-btn .activted {
+  box-shadow: 0px 0px 96px 24px var(--accent-blue), 0px 0px 8px 1px #89b1ff inset;
 }
 
 /* ==========================================================================
-   7. 404 ERROR PAGE
+   9. 404 ERROR PAGE
    ========================================================================== */
-
 .error-page main {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 70vh; /* Ensures it sits in the middle of the screen */
+  min-height: 70vh; 
   text-align: center;
 }
 
-.error-container {
-  max-width: 600px;
-}
+.error-container { max-width: 600px; }
 
 .error-code {
   font-family: 'Oswald', sans-serif;
   font-size: clamp(6rem, 15vw, 10rem);
   line-height: 1;
   margin: 0;
-  color: #f0f0f0; /* Subtle ghost-like text */
+  color: var(--border-light); 
   letter-spacing: -0.5rem;
 }
 
@@ -1158,20 +917,20 @@ a.animated:hover {
   font-family: 'Oswald', sans-serif;
   font-size: 2rem;
   text-transform: uppercase;
-  margin-top: -2rem; /* Pulls the title into the large 404 numbers */
+  margin-top: -2rem; 
   margin-bottom: 1.5rem;
 }
 
 .error-message {
   font-size: 1.1rem;
-  color: #666;
+  color: var(--text-muted);
   margin-bottom: 2.5rem;
   line-height: 1.6;
 }
 
 .error-button {
   display: inline-block;
-  background-color: #427df2;
+  background-color: var(--accent-blue);
   color: white !important;
   padding: 1rem 2.5rem;
   border-radius: 50px;
@@ -1182,39 +941,115 @@ a.animated:hover {
 }
 
 .error-button:hover {
-  background-color: #3166d6;
+  background-color: var(--accent-blue-hover);
   transform: translateY(-2px);
 }
 
-/* Mobile Tweak */
-@media (max-width: 768px) {
-  .error-code {
-    margin-bottom: 1rem;
+/* ==========================================================================
+   10. RESPONSIVE MEDIA QUERIES (CONSOLIDATED)
+   ========================================================================== */
+
+/* Large Tablets / Small Laptops */
+@media (max-width: 1024px) {
+  .about-grid-container {
+    flex-direction: column;
+    padding-top: 6rem;
   }
-  .error-title {
-    margin-top: 0;
+  .bio-columns {
+    flex-direction: column;
+    gap: 0;
+  }
+  .half-row {
+    flex-direction: column;
+  }
+  .wide-card {
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1.5rem;
+    min-height: auto;
+  }
+  .card-hero {
+    width: 100%;
+    flex: 0 0 auto;
+  }
+  .card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
   }
 }
 
-/* ==========================================================================
-   10. RESPONSIVE MEDIA QUERIES
-   ========================================================================== */
+/* Standard Tablets */
 @media (max-width: 900px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-  
+  .grid { grid-template-columns: 1fr; }
   .intro {
     flex-direction: column;
     align-items: flex-start;
   }
-
-  .logo {
-    height: 20px;
-  }
-
+  .logo { height: 20px; }
   .case-study-content, .case-study-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .about-specs {
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid var(--border-light);
+    padding-top: 3rem;
+  }
+}
+
+/* Mobile Devices */
+@media (max-width: 768px) {
+  .menu-toggle { display: block; }
+  
+  .menu-toggle.is-active .bar:nth-child(2) { opacity: 0; }
+  .menu-toggle.is-active .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .menu-toggle.is-active .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav-menu {
+    position: fixed;
+    flex-direction: column;
+    background-color: #fff;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: -100%; 
+    text-align: center;
+    transition: 0.3s;
+    justify-content: center;
+    padding-top: 80px;
+  }
+  .nav-menu.active { left: 0; }
+  .nav-menu a {
+    font-size: 2rem;
+    margin: 1.5rem 0;
+  }
+
+  .project-info-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .info-sidebar {
+    border-left: none;
+    padding-left: 0;
+  }
+  .gallery-grid-2, .gallery-grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 30px;
+  }
+  .col-cta { text-align: center; }
+
+  .error-code { margin-bottom: 1rem; }
+  .error-title { margin-top: 0; }
 }
