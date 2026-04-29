@@ -12,14 +12,15 @@ async function includeHTML() {
 
         if (file.includes('header')) {
           setupNav();
-          setActiveNav(); // NEW: highlight current page
+          setActiveNav();
         }
 
         if (file.includes('footer')) {
           const yearEl = document.getElementById('year');
           if (yearEl) yearEl.textContent = new Date().getFullYear();
-          initCopyEmail(); // FIX: was never being called
+          initCopyEmail();
         }
+
         if (file.includes('project-nav')) {
           const path = window.location.pathname;
           document.querySelectorAll('.project-pill').forEach(pill => {
@@ -28,7 +29,6 @@ async function includeHTML() {
             }
           });
         }
-
       }
     } catch (err) {
       console.error("Fetch failed for:", file, err);
@@ -59,7 +59,6 @@ function initCopyEmail() {
           btn.style.color = "";
         }, 2000);
       }).catch(() => {
-        // Fallback: open mailto if clipboard fails (e.g. HTTP or permissions denied)
         window.location.href = "mailto:hellothere@ianmarder.com";
       });
     });
@@ -95,10 +94,8 @@ function setActiveNav() {
     const href = link.getAttribute('href');
     if (!href || href.startsWith('#') || href.startsWith('mailto')) return;
 
-    // Exact root match
     if (href === '/' && path === '/') {
       link.classList.add('active');
-    // Section match (e.g. /work/ matches /work/achievers/)
     } else if (href !== '/' && path.startsWith(href)) {
       link.classList.add('active');
     }
@@ -129,10 +126,10 @@ function initBlob() {
   const ctx  = canvas.getContext('2d');
   const hero = canvas.parentElement;
 
-  const BLUES      = ['#14AAE1','#7CD4F4','#427df2','#fff','#07374B','#3166d6','#0a1f3d','#14AAE1','#7CD4F4','#427df2'];
-  const WAVE_COLS  = 3;
+  const BLUES      = ['#14AAE1','#7CD4F4','#427df2','#07374B','#3166d6','#0a1f3d','#14AAE1','#7CD4F4','#427df2'];
+  const WAVE_COLS  = 16;
   const WAVE_AMP   = 32;
-  const WAVE_SPEED = 0.004;
+  const WAVE_SPEED = 0.002;
   let t = 0;
 
   function resize() {
@@ -150,7 +147,7 @@ function initBlob() {
     const RADIUS  = 0;
     const bLeft   = 0;
     const bRight  = W + 2;
-    const bBottom = H;
+    const bBottom = H + 2;
     const waveMid = H * 0.32;
     const cols    = WAVE_COLS + 2;
     const pts     = [];
@@ -187,7 +184,7 @@ function initBlob() {
     const W = canvas.width, H = canvas.height;
     ctx.clearRect(0, 0, W, H);
     buildWave(W, H);
-    ctx.globalAlpha = 0.16;
+    ctx.globalAlpha = 0.10;
     ctx.fillStyle = makeGradient(H);
     ctx.fill();
     ctx.globalAlpha = 1;
@@ -202,7 +199,7 @@ function initBlob() {
 let slideIndex = 0;
 function showSlides() {
   const slides = document.querySelectorAll(".slide");
-  if (slides.length === 0) return; // graceful exit on pages without a slideshow
+  if (slides.length === 0) return;
 
   const currentActive = document.querySelector(".slide.active");
   slideIndex = (slideIndex % slides.length) + 1;
@@ -217,31 +214,36 @@ function initLightbox() {
     if (img.parentElement.tagName === 'A') return;
 
     const a = document.createElement('a');
-    a.href = img.src;
-    a.setAttribute('data-fslightbox', 'gallery');
+
+    if (img.hasAttribute('data-no-lightbox')) {
+      // Link out to doc instead of lightbox
+      a.href = img.getAttribute('data-href') || img.src;
+      a.target = '_blank';
+    } else {
+      a.href = img.src;
+      a.setAttribute('data-fslightbox', 'gallery');
+    }
 
     // Transfer inline styles from img to a
     if (img.style.cssText) {
       a.style.cssText = img.style.cssText;
       img.style.cssText = 'cursor: zoom-in;';
     }
+
+    img.parentNode.insertBefore(a, img);
+    a.appendChild(img);
+
+    img.style.cursor = img.hasAttribute('data-no-lightbox') ? 'pointer' : 'zoom-in';
     img.style.width = '100%';
     img.style.height = '100%';
     img.style.objectFit = 'cover';
     img.style.objectPosition = 'center';
-
-    img.parentNode.insertBefore(a, img);
-    a.appendChild(img);
-    img.style.cursor = 'zoom-in';
   });
 
   refreshFsLightbox();
 }
 
-
-
-
-// Init
+// 8. Initialize All
 document.addEventListener('DOMContentLoaded', async () => {
   await includeHTML();
   initObserver();
