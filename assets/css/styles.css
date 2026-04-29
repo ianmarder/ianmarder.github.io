@@ -52,8 +52,8 @@ a {
 }
 
 /* Text Selection */
-::-moz-selection { color: white; background: var(--brand-dark); }
-::selection      { color: white; background: var(--brand-dark); }
+::-moz-selection { color: white; background: var(--accent-blue); }
+::selection      { color: white; background: var(--accent-blue); }
 
 /* --- Reveal Animations --- */
 .reveal {
@@ -85,7 +85,11 @@ a {
 .placeholder > video,
 .placeholder > iframe {
   width: 100%;
-  height: 100%;
+  display: block;
+  border-radius: inherit;
+}
+.placeholder > a > img{
+  width: 100%;
   display: block;
   border-radius: inherit;
 }
@@ -132,11 +136,11 @@ a {
 .view-project-btn {
   display: inline-block;
   background-color: var(--accent-blue);
-  color: white;
+  color: white !important;
   padding: 0.8rem 2rem;
   border-radius: 50px;
-  font-weight: 600;
-  font-size: 0.95rem;
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
   font-family: 'Cabin', sans-serif;
   text-transform: none;
   letter-spacing: 0;
@@ -148,8 +152,6 @@ a {
 .error-button:hover,
 .view-project-btn:hover {
   background-color: var(--brand-blue);
-  color: white;
-  transform: translateY(-2px);
 }
 
 /* .error-button gets slightly larger padding */
@@ -224,6 +226,18 @@ a {
   align-items: flex-start;
   padding: 16rem 0 12rem;
   max-width: var(--content-width);
+}
+
+.intro-aside {
+  max-width: 340px;
+  align-self: flex-end;
+  padding-bottom: 0.5rem;
+}
+
+.intro-aside p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-muted);
 }
 
 .intro-text { max-width: 600px; }
@@ -346,6 +360,11 @@ a {
   font-size: 1.5rem;
   text-transform: uppercase;
   color: #333;
+}
+
+#shirt-link:hover{
+color: var(--brand-blue);
+text-decoration: underline;
 }
 
 /* ==========================================================================
@@ -736,6 +755,36 @@ a {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
 }
+/* Project nav component 2026-04-14 */
+
+.project-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 6rem 0;
+  margin-top: 3rem;
+}
+
+.project-pill {
+  padding: 0.6rem 1.4rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 2px solid var(--bg-dark);
+  color: var(--bg-dark);
+  transition: all 0.2s ease;
+}
+
+.project-pill:hover {
+  background-color: var(--bg-dark);
+  color: white;
+}
+
+.project-pill.active {
+  background-color: var(--accent-blue);
+  border-color: var(--accent-blue);
+  color: white;
+}
 
 /* ==========================================================================
    9. TIMELINE & BENTO GRIDS
@@ -825,6 +874,12 @@ a {
     aspect-ratio: auto;
   }
 
+  .bento-grid .placeholder > a {
+  width: 100%;
+  height: 100%;
+  display: block;
+  }
+
   .bento-grid > :nth-child(1) { grid-area: span 1 / span 2; aspect-ratio: 21 / 9 !important; }
   .bento-grid > :nth-child(2) { grid-area: span 1 / span 1; aspect-ratio: 1 / 1 !important; }
   .bento-grid > :nth-child(3) { grid-area: span 1 / span 1; aspect-ratio: 1 / 1 !important; }
@@ -876,7 +931,6 @@ a {
 
 .footer-logo {
   height: 30px;
-  filter: brightness(0) invert(1);
   display: block;
   margin-bottom: 10px;
 }
@@ -954,6 +1008,7 @@ a {
   .logo            { height: 20px; }
   .about-grid      { grid-template-columns: 1fr; gap: 3rem; }
   .about-specs     { border-left: none; padding-left: 0; border-top: 1px solid var(--border-light); padding-top: 3rem; }
+  .intro-aside     { align-self: flex-start; }
 }
 
 /* Mobile */
@@ -996,4 +1051,5 @@ a {
 
   .desktop-contact { display: none !important; }
   .mobile-contact  { display: inline-block !important; }
+  .intro-aside     { align-self: flex-start; }
 }

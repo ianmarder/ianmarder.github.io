@@ -20,6 +20,15 @@ async function includeHTML() {
           if (yearEl) yearEl.textContent = new Date().getFullYear();
           initCopyEmail(); // FIX: was never being called
         }
+        if (file.includes('project-nav')) {
+          const path = window.location.pathname;
+          document.querySelectorAll('.project-pill').forEach(pill => {
+            if (pill.getAttribute('href') === path) {
+              pill.classList.add('active');
+            }
+          });
+        }
+
       }
     } catch (err) {
       console.error("Fetch failed for:", file, err);
@@ -121,9 +130,9 @@ function initBlob() {
   const hero = canvas.parentElement;
 
   const BLUES      = ['#14AAE1','#7CD4F4','#427df2','#fff','#07374B','#3166d6','#0a1f3d','#14AAE1','#7CD4F4','#427df2'];
-  const WAVE_COLS  = 16;
+  const WAVE_COLS  = 3;
   const WAVE_AMP   = 32;
-  const WAVE_SPEED = 0.002;
+  const WAVE_SPEED = 0.004;
   let t = 0;
 
   function resize() {
@@ -202,10 +211,41 @@ function showSlides() {
   setTimeout(showSlides, 7000);
 }
 
+// 7. Lightbox — init fslightbox on all placeholder images
+function initLightbox() {
+  document.querySelectorAll('.placeholder img').forEach((img) => {
+    if (img.parentElement.tagName === 'A') return;
+
+    const a = document.createElement('a');
+    a.href = img.src;
+    a.setAttribute('data-fslightbox', 'gallery');
+
+    // Transfer inline styles from img to a
+    if (img.style.cssText) {
+      a.style.cssText = img.style.cssText;
+      img.style.cssText = 'cursor: zoom-in;';
+    }
+    img.style.width = '100%';
+    img.style.height = '100%';
+    img.style.objectFit = 'cover';
+    img.style.objectPosition = 'center';
+
+    img.parentNode.insertBefore(a, img);
+    a.appendChild(img);
+    img.style.cursor = 'zoom-in';
+  });
+
+  refreshFsLightbox();
+}
+
+
+
+
 // Init
 document.addEventListener('DOMContentLoaded', async () => {
   await includeHTML();
   initObserver();
-  showSlides();
   initBlob();
+  initLightbox();
+  showSlides();
 });
