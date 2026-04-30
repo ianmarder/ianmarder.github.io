@@ -243,8 +243,133 @@ function initLightbox() {
   refreshFsLightbox();
 }
 
-// 8. Initialize All
+// 8. Preloader — wave recession on first visit
+function initPreloader() {
+  if (sessionStorage.getItem('visited')) return;
+  sessionStorage.setItem('visited', '1');
+
+  const BLUES     = ['#14AAE1','#7CD4F4','#427df2','#07374B','#3166d6','#0a1f3d','#14AAE1','#7CD4F4','#427df2'];
+  const WAVE_AMP  = 32;
+  const WAVE_COLS = 16;
+
+  // Timing
+  const HOLD_END  = 1000;  // hold full screen for 500ms
+  const LOGO_FADE = 200;  // logo fades in over 200ms
+  const RECV_END  = 2000; // recession ends at 1100ms (600ms of movement)
+  const FADE_END  = 1600; // fully faded by 1400ms
+
+  // Canvas
+  const cv = document.createElement('canvas');
+  cv.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;z-index:9999;pointer-events:none;';
+  document.body.appendChild(cv);
+  const ctx = cv.getContext('2d');
+
+  // Logo image
+  const logo = new Image();
+  logo.src = '/assets/images/logos/IM-logo-white.svg';
+
+  let t     = 0;
+  let start = null;
+
+  function easeOutExpo(x) {
+    return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
+  }
+
+  function makeGradient(H) {
+    const grad = ctx.createLinearGradient(0, 0, 0, H * 3);
+    BLUES.forEach((c, i) => grad.addColorStop(i / (BLUES.length - 1), c));
+    return grad;
+  }
+
+  function drawFullScreen(W, H) {
+    ctx.fillStyle = makeGradient(H);
+    ctx.fillRect(0, 0, W, H);
+  }
+
+  function drawWave(W, H, waveTop) {
+    const cols = WAVE_COLS + 2;
+    const pts  = [];
+    for (let i = 0; i <= cols; i++) {
+      const px   = (i / cols) * W;
+      const p1   = (i / cols) * Math.PI * 3   - t * Math.PI * 2;
+      const p2   = (i / cols) * Math.PI * 1.7 - t * Math.PI * 2 * 0.6;
+      const p3   = (i / cols) * Math.PI * 5   - t * Math.PI * 2 * 1.4;
+      const wave = Math.sin(p1)*WAVE_AMP + Math.sin(p2)*WAVE_AMP*0.4 + Math.sin(p3)*WAVE_AMP*0.18;
+      pts.push([px, waveTop + wave]);
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(0, H);
+    ctx.lineTo(W, H);
+    ctx.lineTo(W, pts[pts.length - 1][1]);
+    for (let i = pts.length - 1; i > 0; i--) {
+      const [x1, y1] = pts[i];
+      const [x0, y0] = pts[i - 1];
+      ctx.quadraticCurveTo(x1, y1, (x0 + x1) / 2, (y0 + y1) / 2);
+    }
+    ctx.lineTo(0, pts[0][1]);
+    ctx.closePath();
+    ctx.fillStyle = makeGradient(H);
+    ctx.fill();
+  }
+
+  function draw(ts) {
+    if (!start) start = ts;
+    const elapsed = ts - start;
+
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+    cv.width  = W;
+    cv.height = H;
+    ctx.clearRect(0, 0, W, H);
+
+    if (elapsed < HOLD_END) {
+      // Phase 1 — full screen gradient + logo fade in
+      drawFullScreen(W, H);
+
+      const logoAlpha = Math.min(elapsed / LOGO_FADE, 1);
+      if (logo.complete && logoAlpha > 0) {
+        const logoH = Math.min(H * 0.08, 60);
+        const logoW = logoH * (logo.naturalWidth / logo.naturalHeight);
+        ctx.globalAlpha = logoAlpha;
+        // Invert logo to white
+        ctx.filter = 'brightness(0) invert(1)';
+        ctx.drawImage(logo, (W - logoW) / 2, (H - logoH) / 2, logoW, logoH);
+        ctx.filter = 'none';
+        ctx.globalAlpha = 1;
+      }
+
+    } else if (elapsed < RECV_END) {
+      // Phase 2 — wave recedes downward with expo-out
+      const recvProgress = (elapsed - HOLD_END) / (RECV_END - HOLD_END);
+      const eased   = easeOutExpo(recvProgress);
+      const waveTop = eased * (H + WAVE_AMP * 2);
+      drawWave(W, H, waveTop);
+
+    } else if (elapsed < FADE_END) {
+      // Phase 3 — fade out remaining sliver
+      const fadeProgress = (elapsed - RECV_END) / (FADE_END - RECV_END);
+      ctx.globalAlpha = 1 - fadeProgress;
+      const waveTop = H + WAVE_AMP * 2;
+      drawWave(W, H, waveTop);
+      ctx.globalAlpha = 1;
+    }
+
+    t += 0.008;
+
+    if (elapsed < FADE_END) {
+      requestAnimationFrame(draw);
+    } else {
+      document.body.removeChild(cv);
+    }
+  }
+
+  requestAnimationFrame(draw);
+}
+
+// 9. Initialize All
 document.addEventListener('DOMContentLoaded', async () => {
+  initPreloader();
   await includeHTML();
   initObserver();
   initBlob();
