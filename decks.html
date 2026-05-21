@@ -9,10 +9,14 @@
   <style>
     /* ── Page-specific overrides ── */
 
-    /* Prevent any child from causing horizontal overflow */
-    .decks-page-wrap {
+    /* Clip overflow at the root — the only level that actually works */
+    html, body {
       overflow-x: hidden;
-      width: 100%;
+      max-width: 100%;
+    }
+
+    * {
+      min-width: 0; /* Prevents grid/flex children from overflowing their container */
     }
 
     .decks-hero {
@@ -392,7 +396,14 @@
     @media (max-width: 600px) {
       .deck-samples { grid-template-columns: 1fr; }
       .decks-hero { padding-top: 6rem; }
-      .cta-strip { margin: 3rem 0; }
+      .decks-hero h1 { letter-spacing: -0.05rem; }
+      .cta-strip {
+        margin: 3rem 0;
+        padding: 2.5rem 1.5rem;
+        border-radius: 16px;
+      }
+      .value-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .process-item { grid-template-columns: 2.5rem 1fr; gap: 1rem; }
     }
   </style>
 </head>
@@ -401,7 +412,7 @@
 
 <header class="site-header" data-include="/components/header.html"></header>
 
-<main class="decks-page-wrap">
+<main>
 
   <!-- HERO -->
   <section class="decks-hero">
