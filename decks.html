@@ -3,20 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deck Design — Ian Marder</title>
-  <meta name="description" content="Pitch deck and presentation design for startups. Brand-fluent, story-structured, built to close.">
-  <link rel="stylesheet" href="/assets/css/styles.css" />
-  <style>
-    /* ── Page-specific overrides ── */
+  <title>Pitch Deck & Presentation Design | Ian Marder</title>
+  <meta name="description" content="Custom pitch decks, sales decks, and presentation template systems — designed to close, not just look polished. Brand-fluent design, from CAD $350.">
 
-    /* Clip overflow at the root — the only level that actually works */
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ianmarder.github.io/decks.html">
+  <meta property="og:site_name" content="Ian Marder">
+  <meta property="og:title" content="Pitch Deck & Presentation Design | Ian Marder">
+  <meta property="og:description" content="Decks should close before you open your mouth. Pitch decks, sales decks, and template systems for founders and teams who need their ideas to land.">
+  <meta property="og:image" content="https://ianmarder.github.io/assets/images/decks-og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Ian Marder — Presentation design. Decks should close before you open your mouth.">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Pitch Deck & Presentation Design | Ian Marder">
+  <meta name="twitter:description" content="Decks should close before you open your mouth. Pitch decks, sales decks, and template systems for founders and teams who need their ideas to land.">
+  <meta name="twitter:image" content="https://ianmarder.github.io/assets/images/decks-og.jpg">
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
     html, body {
       overflow-x: hidden;
       max-width: 100%;
     }
 
     * {
-      min-width: 0; /* Prevents grid/flex children from overflowing their container */
+      min-width: 0;
     }
 
     .decks-hero {
@@ -30,7 +43,7 @@
     .decks-hero-text { max-width: 620px; }
 
     .decks-eyebrow {
-      font-size: 0.75rem;
+      font-size: 0.9rem;
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -39,14 +52,6 @@
       display: flex;
       align-items: center;
       gap: 0.6rem;
-    }
-
-    .decks-eyebrow::before {
-      content: '';
-      display: block;
-      width: 20px;
-      height: 1.5px;
-      background: var(--accent-blue);
     }
 
     .decks-hero h1 {
@@ -79,15 +84,14 @@
     }
 
     .decks-hero-aside p {
-      font-size: 1rem;
+      font-size: 1.15rem;
       line-height: 1.7;
       color: var(--text-muted);
       margin-bottom: 1.5rem;
     }
 
-    /* ── Section labels ── */
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.85rem;
       font-weight: 700;
       letter-spacing: 0.14em;
       text-transform: uppercase;
@@ -95,7 +99,6 @@
       margin-bottom: 3rem;
     }
 
-    /* ── Value grid ── */
     .value-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -103,15 +106,16 @@
     }
 
     .value-num {
-      display: inline-block;
-      font-family: 'Oswald', sans-serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--bg-light);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.75rem;
+      height: 2.75rem;
       background: var(--accent-blue);
-      padding: 0.3rem 0.75rem;
       border-radius: 6px;
       margin-bottom: 1rem;
+      color: #fff;
+      font-size: 1.4rem;
     }
 
     .value-item h3 {
@@ -123,12 +127,11 @@
     }
 
     .value-item p {
-      font-size: 0.95rem;
+      font-size: 1.05rem;
       color: var(--text-muted);
       line-height: 1.7;
     }
 
-    /* ── Work samples ── */
     .deck-samples {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -168,7 +171,7 @@
       position: absolute;
       top: 0.75rem;
       right: 0.75rem;
-      font-size: 0.65rem;
+      font-size: 0.75rem;
       font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -188,18 +191,17 @@
     }
 
     .deck-sample-card p {
-      font-size: 0.9rem;
+      font-size: 1rem;
       color: var(--text-muted);
       line-height: 1.65;
     }
 
-    /* ── Process ── */
     .process-list { display: flex; flex-direction: column; }
 
     .process-item {
       display: grid;
       grid-template-columns: 3.5rem 1fr;
-      gap: 1.5rem;
+      gap: 3rem;
       padding: 2rem 0;
       border-bottom: 1px solid var(--border-light);
       align-items: start;
@@ -209,11 +211,12 @@
 
     .process-num {
       font-family: 'Oswald', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 400;
+      font-size: 4rem;
+      font-weight: bold;
       color: var(--accent-blue);
       padding-top: 0.1em;
       letter-spacing: 0.05em;
+      margin-right: rem;
     }
 
     .process-item h3 {
@@ -225,7 +228,7 @@
     }
 
     .process-item p {
-      font-size: 0.95rem;
+      font-size: 1.05rem;
       color: var(--text-muted);
       line-height: 1.65;
     }
@@ -233,7 +236,7 @@
     /* ── Pricing ── */
     .pricing-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 0;
       border: 1px solid var(--border-light);
       border-radius: 24px;
@@ -256,7 +259,7 @@
     }
 
     .pricing-tier {
-      font-size: 0.7rem;
+      font-size: 0.85rem;
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -278,7 +281,7 @@
     .pricing-card.featured .pricing-price { color: #fff; }
 
     .pricing-cadence {
-      font-size: 0.8rem;
+      font-size: 0.95rem;
       color: var(--text-light);
       margin-bottom: 1.25rem;
     }
@@ -286,7 +289,7 @@
     .pricing-card.featured .pricing-cadence { color: rgba(255,255,255,0.35); }
 
     .pricing-desc {
-      font-size: 0.9rem;
+      font-size: 1.05rem;
       color: var(--text-muted);
       line-height: 1.6;
       padding-bottom: 1.25rem;
@@ -309,7 +312,7 @@
     }
 
     .pricing-includes li {
-      font-size: 0.875rem;
+      font-size: 1rem;
       color: var(--text-muted);
       display: flex;
       gap: 0.5rem;
@@ -329,7 +332,7 @@
     }
 
     .pricing-note {
-      font-size: 0.85rem;
+      font-size: 1rem;
       color: var(--text-light);
       line-height: 1.65;
     }
@@ -369,6 +372,29 @@
       margin-bottom: 0.4em;
     }
 
+    .cta-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: flex-end;
+    }
+
+    .cta-secondary {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+    }
+
+    .cta-secondary a {
+      color: rgba(255,255,255,0.55);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .cta-secondary a:hover {
+      color: rgba(255,255,255,0.85);
+    }
+
     /* ── Responsive ── */
     @media (max-width: 1024px) {
       .deck-samples { grid-template-columns: 1fr 1fr; }
@@ -391,6 +417,7 @@
         padding: 3rem 2rem;
         border-radius: 20px;
       }
+      .cta-actions { align-items: flex-start; }
     }
 
     @media (max-width: 600px) {
@@ -418,11 +445,11 @@
   <section class="decks-hero">
     <div class="decks-hero-text">
       <p class="decks-eyebrow reveal">Presentation Design</p>
-      <h1 class="reveal"><span class="h1-lead">Decks should close before you</span>Open your mouth.</h1>
+      <h1 class="reveal"><span class="h1-lead">Decks should close before you </span>open your mouth.</h1>
     </div>
     <div class="decks-hero-aside reveal" data-delay="150">
       <p>I design pitch decks, sales presentations, and investor materials for startups who need their ideas to land — not just look polished.</p>
-      <a class="header-btn" href="mailto:hello@ianmarder.com">Start a project →</a>
+      <a class="header-btn" href="mailto:hellothere@ianmarder.com">Start a project →</a>
     </div>
   </section>
 
@@ -431,24 +458,24 @@
     <p class="section-label reveal">What you get</p>
     <div class="value-grid">
       <div class="value-item reveal" data-delay="0">
-        <div class="value-num">01</div>
-        <h3>Brand-fluent design</h3>
-        <p>Built from your identity outward — not a template with your logo dropped in. Colour, type, and hierarchy that looks like you meant it.</p>
+        <div class="value-num"><i class="ti ti-palette" aria-hidden="true"></i></div>
+        <h3>Brand-first design</h3>
+        <p>Built from your brand. This isn't a template with your logo dropped in, this is your brand in presentation form. Colour, type, and hierarchy make it intentional.</p>
       </div>
       <div class="value-item reveal" data-delay="100">
-        <div class="value-num">02</div>
+        <div class="value-num"><i class="ti ti-layout-rows" aria-hidden="true"></i></div>
         <h3>Narrative architecture</h3>
-        <p>Slides that tell a story. The right information in the right order, so your audience stays with you until the ask.</p>
+        <p>Slides that tell a story. The right information in the right order, so your audience stays with you until the ask. No slides with 6 paragraphs of text here.</p>
       </div>
       <div class="value-item reveal" data-delay="200">
-        <div class="value-num">03</div>
+        <div class="value-num"><i class="ti ti-file-export" aria-hidden="true"></i></div>
         <h3>Files you can hand off</h3>
         <p>Clean, editable PowerPoint or Google Slides. No locked layers, no mystery fonts, no dependency on me for every update.</p>
       </div>
       <div class="value-item reveal" data-delay="300">
-        <div class="value-num">04</div>
+        <div class="value-num"><i class="ti ti-bolt" aria-hidden="true"></i></div>
         <h3>Speed when it counts</h3>
-        <p>I've built high-stakes decks under real pressure. If your round closes next week, that's a timeline — not a panic.</p>
+        <p>I've built high-stakes decks under real pressure. If your round closes next week, that just means focus is necessary, and that's what I'm here to provide.</p>
       </div>
     </div>
   </section>
@@ -459,12 +486,9 @@
     <div class="deck-samples">
 
       <div class="deck-sample-card reveal" data-delay="0">
-        <div class="deck-thumb">
+        <div class="deck-thumb" style="background:none;padding:0;">
           <span class="deck-thumb-tag">Pitch Deck</span>
-          <div class="deck-thumb-bar hi w-65"></div>
-          <div class="deck-thumb-bar w-90"></div>
-          <div class="deck-thumb-bar w-40"></div>
-          <div class="deck-thumb-bar w-65"></div>
+          <img src="/assets/images/decks-slide1.jpg" alt="Investor pitch deck sample slide" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:16px;" />
         </div>
         <p class="project-category">Seed Round</p>
         <h3>Investor-ready seed deck</h3>
@@ -472,12 +496,9 @@
       </div>
 
       <div class="deck-sample-card reveal" data-delay="100">
-        <div class="deck-thumb">
+        <div class="deck-thumb" style="background:none;padding:0;">
           <span class="deck-thumb-tag">Sales Deck</span>
-          <div class="deck-thumb-bar w-40"></div>
-          <div class="deck-thumb-bar hi w-90"></div>
-          <div class="deck-thumb-bar w-65"></div>
-          <div class="deck-thumb-bar w-40"></div>
+          <img src="/assets/images/decks-slide2.jpg" alt="Enterprise sales deck sample slide" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:16px;" />
         </div>
         <p class="project-category">Enterprise Sales</p>
         <h3>Prospect presentation system</h3>
@@ -485,12 +506,9 @@
       </div>
 
       <div class="deck-sample-card reveal" data-delay="200">
-        <div class="deck-thumb">
+        <div class="deck-thumb" style="background:none;padding:0;">
           <span class="deck-thumb-tag">Template</span>
-          <div class="deck-thumb-bar w-90"></div>
-          <div class="deck-thumb-bar w-40"></div>
-          <div class="deck-thumb-bar hi w-65"></div>
-          <div class="deck-thumb-bar w-90"></div>
+          <img src="/assets/images/decks-slide3.jpg" alt="Brand system slide template library sample" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:16px;" />
         </div>
         <p class="project-category">Brand System</p>
         <h3>Presentation template library</h3>
@@ -498,7 +516,7 @@
       </div>
 
     </div>
-    <p style="font-size:0.8rem;color:var(--text-light);margin-top:1.25rem;">
+    <p style="font-size:0.95rem;color:var(--text-light);margin-top:1.25rem;">
       Full samples available on request. Most client work is under NDA — thumbnails above are representative.
     </p>
   </section>
@@ -545,7 +563,7 @@
 
       <div class="pricing-card">
         <p class="pricing-tier">Refresh</p>
-        <p class="pricing-price">$500–$800</p>
+        <p class="pricing-price">$350–$500</p>
         <p class="pricing-cadence">per project</p>
         <p class="pricing-desc">You have a deck. It needs to look like you know what you're doing.</p>
         <ul class="pricing-includes">
@@ -559,7 +577,7 @@
 
       <div class="pricing-card featured">
         <p class="pricing-tier">Full Deck</p>
-        <p class="pricing-price">$1,200–$2,500</p>
+        <p class="pricing-price">$800–$1,500</p>
         <p class="pricing-cadence">per project</p>
         <p class="pricing-desc">Built from scratch. Brand-anchored, story-structured, ready to send.</p>
         <ul class="pricing-includes">
@@ -572,30 +590,17 @@
         </ul>
       </div>
 
-      <div class="pricing-card">
-        <p class="pricing-tier">Strategic Deck</p>
-        <p class="pricing-price">$2,500–$5,000</p>
-        <p class="pricing-cadence">per project</p>
-        <p class="pricing-desc">High-stakes pitch where the design has to earn its keep.</p>
-        <ul class="pricing-includes">
-          <li>Story strategy + narrative consulting</li>
-          <li>20+ slides</li>
-          <li>Full brand build if needed</li>
-          <li>Data visualization + custom graphics</li>
-          <li>3 revision rounds</li>
-          <li>Master template included</li>
-          <li>Editable file + PDF export</li>
-        </ul>
-      </div>
-
     </div>
-    <p class="pricing-note reveal">Retainer arrangements available for teams needing ongoing deck support ($1,500–$3,000/month). Rush timelines under 5 business days carry a 25–40% surcharge. All prices in USD.</p>
+    <p class="pricing-note reveal">Need something bigger? Complex investor decks, ongoing retainer support, or a full brand build alongside your deck — <a href="mailto:hellothere@ianmarder.com" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">get in touch</a> and we'll scope it together. Rush timelines under 5 business days carry a 30% surcharge. All prices in CAD.</p>
   </section>
 
   <!-- CTA -->
   <div class="cta-strip reveal">
     <h2><span class="h2-lead">Let's make your deck</span>The one they remember.</h2>
-    <a class="header-btn" href="mailto:hello@ianmarder.com">Start a project →</a>
+    <div class="cta-actions">
+      <a class="header-btn" href="mailto:hellothere@ianmarder.com">Start a project →</a>
+      <p class="cta-secondary">Not ready to email? <a href="https://docs.google.com/forms/d/1l9wZIzYpeKpUmrFv8jec_Vkp_LtQDqGTOGVzYTjnOxc/" target="_blank" rel="noopener">Fill out a quick brief instead.</a></p>
+    </div>
   </div>
 
 </main>
