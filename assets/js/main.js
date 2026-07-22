@@ -126,7 +126,7 @@ function initBlob() {
   const ctx  = canvas.getContext('2d');
   const hero = canvas.parentElement;
 
-  const BLUES      = ['#14AAE1','#7CD4F4','#427df2','#ffffff','#3166d6','#0a1f3d','#14AAE1','#7CD4F4','#427df2','#427df2'];
+  const BLUES      = ['#14AAE1','#7CD4F4','#427df2','#ffffff','#ffffff','#ffffff','#3166d6','#0a1f3d','#14AAE1','#7CD4F4','#427df2','#427df2'];
   const WAVE_COLS  = 16;
   const WAVE_AMP   = 32;
   const WAVE_SPEED = 0.002;
