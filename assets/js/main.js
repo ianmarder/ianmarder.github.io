@@ -126,7 +126,7 @@ function initBlob() {
   const ctx  = canvas.getContext('2d');
   const hero = canvas.parentElement;
 
-  const BLUES      = ['#14AAE1','#7CD4F4','#427df2','#ffffff','#3166d6','#0a1f3d','#14AAE1','#7CD4F4','#427df2'];
+  const BLUES      = ['#14AAE1','#7CD4F4','#427df2','#ffffff','#3166d6','#0a1f3d','#14AAE1','#7CD4F4','#427df2','#427df2'];
   const WAVE_COLS  = 16;
   const WAVE_AMP   = 32;
   const WAVE_SPEED = 0.002;
@@ -216,7 +216,6 @@ function initLightbox() {
     const a = document.createElement('a');
 
     if (img.hasAttribute('data-no-lightbox')) {
-      // Link out to doc instead of lightbox
       a.href = img.getAttribute('data-href') || img.src;
       a.target = '_blank';
     } else {
@@ -224,7 +223,6 @@ function initLightbox() {
       a.setAttribute('data-fslightbox', 'gallery');
     }
 
-    // Transfer inline styles from img to a
     if (img.style.cssText) {
       a.style.cssText = img.style.cssText;
       img.style.cssText = 'cursor: zoom-in;';
@@ -243,7 +241,19 @@ function initLightbox() {
   refreshFsLightbox();
 }
 
-// 8. Preloader — wave recession on first visit
+// 8. AC ID card slideshow
+function initIdSlideshow() {
+  const slides = document.querySelectorAll('.ac-id-slide');
+  if (slides.length === 0) return;
+  let idx = 0;
+  setInterval(() => {
+    slides[idx].classList.remove('active');
+    idx = (idx + 1) % slides.length;
+    slides[idx].classList.add('active');
+  }, 3000);
+}
+
+// 9. Preloader — wave recession on first visit
 function initPreloader() {
   if (sessionStorage.getItem('visited')) return;
   sessionStorage.setItem('visited', '1');
@@ -252,19 +262,16 @@ function initPreloader() {
   const WAVE_AMP  = 32;
   const WAVE_COLS = 16;
 
-  // Timing
-  const HOLD_END  = 1000;  // hold full screen for 500ms
-  const LOGO_FADE = 200;  // logo fades in over 200ms
-  const RECV_END  = 2000; // recession ends at 1100ms (600ms of movement)
-  const FADE_END  = 1600; // fully faded by 1400ms
+  const HOLD_END  = 1000;
+  const LOGO_FADE = 200;
+  const RECV_END  = 2000;
+  const FADE_END  = 1600;
 
-  // Canvas
   const cv = document.createElement('canvas');
   cv.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;z-index:9999;pointer-events:none;';
   document.body.appendChild(cv);
   const ctx = cv.getContext('2d');
 
-  // Logo image
   const logo = new Image();
   logo.src = '/assets/images/logos/IM-logo-white.svg';
 
@@ -324,7 +331,6 @@ function initPreloader() {
     ctx.clearRect(0, 0, W, H);
 
     if (elapsed < HOLD_END) {
-      // Phase 1 — full screen gradient + logo fade in
       drawFullScreen(W, H);
 
       const logoAlpha = Math.min(elapsed / LOGO_FADE, 1);
@@ -332,7 +338,6 @@ function initPreloader() {
         const logoH = Math.min(H * 0.08, 60);
         const logoW = logoH * (logo.naturalWidth / logo.naturalHeight);
         ctx.globalAlpha = logoAlpha;
-        // Invert logo to white
         ctx.filter = 'brightness(0) invert(1)';
         ctx.drawImage(logo, (W - logoW) / 2, (H - logoH) / 2, logoW, logoH);
         ctx.filter = 'none';
@@ -340,18 +345,15 @@ function initPreloader() {
       }
 
     } else if (elapsed < RECV_END) {
-      // Phase 2 — wave recedes downward with expo-out
       const recvProgress = (elapsed - HOLD_END) / (RECV_END - HOLD_END);
       const eased   = easeOutExpo(recvProgress);
       const waveTop = eased * (H + WAVE_AMP * 2);
       drawWave(W, H, waveTop);
 
     } else if (elapsed < FADE_END) {
-      // Phase 3 — fade out remaining sliver
       const fadeProgress = (elapsed - RECV_END) / (FADE_END - RECV_END);
       ctx.globalAlpha = 1 - fadeProgress;
-      const waveTop = H + WAVE_AMP * 2;
-      drawWave(W, H, waveTop);
+      drawWave(W, H, H + WAVE_AMP * 2);
       ctx.globalAlpha = 1;
     }
 
@@ -367,12 +369,13 @@ function initPreloader() {
   requestAnimationFrame(draw);
 }
 
-// 9. Initialize All
+// 10. Initialize All
 document.addEventListener('DOMContentLoaded', async () => {
   initPreloader();
   await includeHTML();
   initObserver();
   initBlob();
   initLightbox();
+  initIdSlideshow();
   showSlides();
 });
