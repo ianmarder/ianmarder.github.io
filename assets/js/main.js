@@ -221,6 +221,8 @@ function initLightbox() {
     } else {
       a.href = img.src;
       a.setAttribute('data-fslightbox', 'gallery');
+      if (img.alt) a.setAttribute('data-caption', img.alt);
+      a.addEventListener('click', startCaptionPoll);
     }
 
     if (img.style.cssText) {
@@ -241,7 +243,48 @@ function initLightbox() {
   refreshFsLightbox();
 }
 
-// 8. AC ID card slideshow
+// 8. Lightbox captions — pulls alt text into a caption when fslightbox is open
+let fsCaptionEl = null;
+let captionPollTimer = null;
+let captionLastIndex = null;
+
+function ensureCaptionEl() {
+  fsCaptionEl = document.getElementById('fs-caption');
+  if (!fsCaptionEl) {
+    fsCaptionEl = document.createElement('div');
+    fsCaptionEl.id = 'fs-caption';
+    document.body.appendChild(fsCaptionEl);
+  }
+}
+
+function pollCaption() {
+  const inst = window.fsLightboxInstances && window.fsLightboxInstances['gallery'];
+  const isOpen = document.querySelector('.fslightbox-container');
+
+  if (!inst || !isOpen) {
+    if (captionPollTimer) { clearInterval(captionPollTimer); captionPollTimer = null; }
+    if (fsCaptionEl) fsCaptionEl.textContent = '';
+    captionLastIndex = null;
+    return;
+  }
+
+  const idx = inst.stageIndexes.current;
+  if (idx !== captionLastIndex) {
+    captionLastIndex = idx;
+    ensureCaptionEl();
+    const anchorEl = inst.elements.a[idx];
+    fsCaptionEl.textContent = anchorEl ? (anchorEl.getAttribute('data-caption') || '') : '';
+  }
+}
+
+function startCaptionPoll() {
+  ensureCaptionEl();
+  captionLastIndex = null;
+  if (!captionPollTimer) captionPollTimer = setInterval(pollCaption, 100);
+  setTimeout(pollCaption, 50);
+}
+
+// 9. AC ID card slideshow
 function initIdSlideshow() {
   const slides = document.querySelectorAll('.ac-id-slide');
   if (slides.length === 0) return;
@@ -253,7 +296,7 @@ function initIdSlideshow() {
   }, 3000);
 }
 
-// 9. Preloader — wave recession on first visit
+// 10. Preloader — wave recession on first visit
 function initPreloader() {
   if (sessionStorage.getItem('visited')) return;
   sessionStorage.setItem('visited', '1');
@@ -369,7 +412,7 @@ function initPreloader() {
   requestAnimationFrame(draw);
 }
 
-// 10. Initialize All
+// 11. Initialize All
 document.addEventListener('DOMContentLoaded', async () => {
   initPreloader();
   await includeHTML();
