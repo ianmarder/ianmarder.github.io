@@ -582,6 +582,7 @@ text-decoration: underline;
   min-height: 400px;
   box-sizing: border-box;
   border: 1px solid white;
+  
 }
 
 .wide-card img            { transition: opacity 0.2s ease; }
