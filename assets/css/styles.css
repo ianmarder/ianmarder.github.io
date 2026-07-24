@@ -578,14 +578,14 @@ text-decoration: underline;
   background-color: var(--bg-light);
   padding: 2.5rem;
   border-radius: 32px;
-  transition: scale 0.2s cubic-bezier(0.68, -0.6, 0.32, 1.6),
-              border-radius 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+  transition: all 0.2s;
   min-height: 400px;
   box-sizing: border-box;
+  border: 1px solid white;
 }
 
 .wide-card img            { transition: opacity 0.2s ease; }
-.wide-card:hover          { border-radius: 24px; opacity: 0.9; }
+.wide-card:hover          { background-color: white; box-shadow: var(--bg-dark); border: 1px solid var(--border-light);}
 
 .card-hero {
   flex: 0 0 320px;
