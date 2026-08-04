@@ -292,12 +292,12 @@ a {
 }
 
 /* --- Work Grid --- */
-.work { padding-top: 1rem; }
+.work { padding-top: 1rem; padding-bottom:1rem; }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 3rem 2.5rem;
+  gap: 6rem 3rem;
 }
 
 /* Homepage Grid Cards */
@@ -490,16 +490,13 @@ text-decoration: underline;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  animation: slowZoom 20s linear infinite;
-  animation-play-state: paused;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0) scale(1);
 }
 
 .slide.active img { animation-play-state: running; }
 
-@keyframes slowZoom {
-  from { transform: scale(1); }
-  to   { transform: scale(1.3); }
-}
 
 /* --- Hover Words --- */
 .word-trigger {
