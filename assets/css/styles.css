@@ -101,11 +101,12 @@ a {
   border-radius: inherit;
 }
 
-.placeholder.square   { aspect-ratio: 1 / 1; }
-.placeholder.wide     { aspect-ratio: 16 / 9; }
-.placeholder.hero     { aspect-ratio: 21 / 9; }
-.placeholder.tall     { aspect-ratio: 8 / 10; }
-.placeholder.id-card  {
+.placeholder.square    { aspect-ratio: 1 / 1; }
+.placeholder.fourthree { aspect-ratio: 4 / 3; }
+.placeholder.wide      { aspect-ratio: 16 / 9; }
+.placeholder.hero      { aspect-ratio: 21 / 9; }
+.placeholder.tall      { aspect-ratio: 8 / 10; }
+.placeholder.id-card   {
   border: 2px solid var(--border-light);
   transition: transform 0.3s ease, border-color 0.3s ease;
   aspect-ratio: 3 / 2;
@@ -294,11 +295,11 @@ a {
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 3rem 3rem;
+  gap: 6rem 4rem;
 }
 
 /* Homepage Grid Cards */
-.card img {
+.card img, .card video {
   width: 100%;
   aspect-ratio: 4/3;
   object-fit: cover;
@@ -324,7 +325,6 @@ a {
   display: flex;
   justify-content: space-between;
   font-size: 1.6rem;
-  letter-spacing: -0.02rem;
   font-weight: 800;
   margin-bottom: 0.4rem;
 }
@@ -716,8 +716,7 @@ text-decoration: underline;
 .info-sidebar h4 {
   font-family: 'Cabin', sans-serif;
   color: var(--brand-dark);
-  text-transform: uppercase;
-  letter-spacing: .05rem;
+  letter-spacing: .02rem;
   font-weight: 600;
 }
 
