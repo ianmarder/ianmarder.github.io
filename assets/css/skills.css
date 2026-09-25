@@ -1,0 +1,204 @@
+/* ==========================================================================
+   SKILLS INDEX (index.html)
+   Loaded after styles.css. Uses the site's existing variables.
+   ========================================================================== */
+
+.skills { padding-top: 3rem; }
+
+.skills-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 2rem;
+  padding-bottom: 1.5rem;
+}
+
+.skills-head .statement-sub { margin: 0; }
+
+.skills-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* --- List --- */
+.skill-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.skill { border-top: 1px solid var(--border-strong); }
+
+/* --- Row (the toggle) --- */
+.skill-row {
+  width: 100%;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  padding: 2.25rem 0;
+  display: grid;
+  grid-template-columns: 4rem minmax(0, 1fr) 21rem 2.5rem;
+  align-items: center;
+  column-gap: 1.5rem;
+}
+
+.skill-row:focus-visible {
+  outline: 2px solid var(--brand-blue);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.skill-num {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  color: var(--text-muted);
+  transition: color 0.25s ease;
+}
+
+.skill-name {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  letter-spacing: -0.075rem;
+  line-height: 1;
+  transition: color 0.25s ease;
+}
+
+.skill-desc {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.skill-arrow { display: flex; justify-content: flex-end; }
+
+.skill-arrow svg {
+  width: 2.5rem;
+  height: 2.5rem;
+  stroke: var(--text-muted);
+  transition: transform 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6),
+              stroke 0.25s ease;
+}
+
+/* Hover highlight */
+.skill-row:hover .skill-name { color: var(--brand-blue-hover); }
+.skill-row:hover .skill-arrow svg { stroke: var(--brand-blue-hover); }
+
+/* Open state */
+.skill.is-open .skill-num,
+.skill.is-open .skill-name { color: var(--brand-blue); }
+
+.skill.is-open .skill-arrow svg {
+  stroke: var(--brand-blue);
+  transform: rotate(90deg);
+}
+
+/* --- Proof panel (animated open/close) --- */
+.skill-proof {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.5s ease;
+}
+
+.skill.is-open .skill-proof { grid-template-rows: 1fr; }
+
+.skill-proof-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.proof-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+  padding: 0 0 2.5rem 5.5rem;
+}
+
+/* --- Proof cards (mirrors the old .card treatment) --- */
+.proof-card img,
+.proof-card video,
+.proof-wave {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  border-radius: 24px;
+  border: 1px solid var(--border-light);
+  transition: border-radius 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6),
+              opacity 0.2s ease;
+}
+
+.proof-card:hover img,
+.proof-card:hover video,
+.proof-card:hover .proof-wave { border-radius: 12px; opacity: 0.9; }
+
+.proof-card:active img,
+.proof-card:active video { scale: 0.97; }
+
+.proof-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.6rem;
+  font-size: 0.95rem;
+}
+
+.proof-title { font-weight: 600; }
+.proof-date  { color: var(--text-muted); white-space: nowrap; }
+
+/* --- Voiceover tile --- */
+.proof-wave {
+  box-sizing: border-box;
+  background: var(--bg-dark);
+  border-color: var(--border-strong);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.proof-play {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--accent-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.proof-play svg { width: 1.25rem; height: 1.25rem; fill: #fff; }
+
+.waveform { flex: 1; min-width: 0; height: auto; }
+.waveform .bar           { fill: var(--border-strong); }
+.waveform .bar.is-played { fill: var(--brand-blue); }
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  .skill-row {
+    grid-template-columns: 2.5rem minmax(0, 1fr) 2rem;
+    row-gap: 0.75rem;
+    padding: 1.75rem 0;
+  }
+  .skill-desc  { grid-column: 2 / 3; grid-row: 2; }
+  .skill-arrow svg { width: 2rem; height: 2rem; }
+  .proof-grid  { grid-template-columns: repeat(2, minmax(0, 1fr)); padding-left: 0; gap: 1.5rem; }
+}
+
+@media (max-width: 560px) {
+  .skills-head { flex-direction: column; gap: 0.5rem; }
+  .proof-grid  { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-proof,
+  .skill-arrow svg { transition: none; }
+}
