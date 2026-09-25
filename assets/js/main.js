@@ -184,7 +184,7 @@ function initBlob() {
     const W = canvas.width, H = canvas.height;
     ctx.clearRect(0, 0, W, H);
     buildWave(W, H);
-    ctx.globalAlpha = 0.35;
+    ctx.globalAlpha = 0.2;
     ctx.fillStyle = makeGradient(H);
     ctx.fill();
     ctx.globalAlpha = 1;
