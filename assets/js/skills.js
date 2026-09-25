@@ -1,4 +1,4 @@
-// Skills index (index2.html): one row open at a time.
+// Skills index (index.html): one row open at a time.
 // Click/tap opens a row. Hover only highlights (see skills.css) — opening on
 // hover made rows collapse under the cursor and cascade.
 (function () {
