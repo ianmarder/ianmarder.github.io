@@ -126,7 +126,7 @@ function initBlob() {
   const ctx  = canvas.getContext('2d');
   const hero = canvas.parentElement;
 
-  const BLUES      = ['#14AAE1','#7CD4F4','#427df2','#ffffff','#ffffff','#ffffff','#3166d6','#0a1f3d','#14AAE1','#7CD4F4','#427df2','#427df2'];
+  const BLUES      = ['#0b5f80','#1d6f91','#23458f','#05080f','#05080f','#05080f','#1b3878','#050f1f','#0b5f80','#1d6f91','#23458f','#23458f'];
   const WAVE_COLS  = 16;
   const WAVE_AMP   = 32;
   const WAVE_SPEED = 0.002;
@@ -184,7 +184,7 @@ function initBlob() {
     const W = canvas.width, H = canvas.height;
     ctx.clearRect(0, 0, W, H);
     buildWave(W, H);
-    ctx.globalAlpha = 0.10;
+    ctx.globalAlpha = 0.35;
     ctx.fillStyle = makeGradient(H);
     ctx.fill();
     ctx.globalAlpha = 1;
@@ -296,12 +296,107 @@ function initIdSlideshow() {
   }, 3000);
 }
 
-// 10. Preloader — wave recession on first visit
+// 10. Brand switcher — swaps a bento grid's images between client variants.
+// Images use data-slot; non-default brands load from {data-brand-path}{brand}-{slot}.jpg
+function initBrandSwitcher() {
+  const grid    = document.querySelector('[data-brand-grid]');
+  const buttons = document.querySelectorAll('.brand-switcher [data-brand]');
+  if (!grid || buttons.length === 0) return;
+
+  const path   = grid.dataset.brandPath;
+  const imgs   = Array.from(grid.querySelectorAll('img[data-slot]'));
+  const brands = Array.from(buttons).map(b => b.dataset.brand);
+  const defaultBrand = brands[0];
+
+  const CYCLE_MS   = 4500;
+  const FADE_MS    = 250;
+  const STAGGER_MS = 70;
+
+  let current  = defaultBrand;
+  let swapId   = 0;
+  let auto     = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let inView   = false;
+  let hovering = false;
+
+  imgs.forEach(img => {
+    img.dataset.defaultSrc = img.getAttribute('src');
+    img.dataset.defaultAlt = img.alt;
+    img.style.transition = `opacity ${FADE_MS}ms ease`;
+  });
+
+  function srcFor(brand, img) {
+    return brand === defaultBrand ? img.dataset.defaultSrc : `${path}${brand}-${img.dataset.slot}.jpg`;
+  }
+
+  function preload(srcs) {
+    return Promise.all(srcs.map(src => new Promise(resolve => {
+      const im = new Image();
+      im.onload = im.onerror = resolve;
+      im.src = src;
+    })));
+  }
+
+  function show(brand) {
+    if (brand === current) return;
+    current = brand;
+    const id = ++swapId;
+
+    buttons.forEach(b => {
+      const on = b.dataset.brand === brand;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', on);
+    });
+
+    const label = Array.from(buttons).find(b => b.dataset.brand === brand).textContent;
+
+    preload(imgs.map(img => srcFor(brand, img))).then(() => {
+      if (id !== swapId) return;
+      imgs.forEach((img, i) => {
+        setTimeout(() => {
+          if (id !== swapId) return;
+          img.style.opacity = 0;
+          setTimeout(() => {
+            if (id !== swapId) return;
+            const src = srcFor(brand, img);
+            const alt = brand === defaultBrand ? img.dataset.defaultAlt : `${label} ${img.dataset.label}`;
+            img.src = src;
+            img.alt = alt;
+            const a = img.closest('a');
+            if (a) {
+              a.href = src;
+              a.setAttribute('data-caption', alt);
+            }
+            img.style.opacity = 1;
+            if (i === imgs.length - 1 && typeof refreshFsLightbox === 'function') refreshFsLightbox();
+          }, FADE_MS);
+        }, i * STAGGER_MS);
+      });
+    });
+  }
+
+  buttons.forEach(b => b.addEventListener('click', () => {
+    auto = false;
+    show(b.dataset.brand);
+  }));
+
+  // Auto-cycle only while visible, not hovered, and no lightbox is open
+  new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; }, { threshold: 0.3 }).observe(grid);
+  grid.addEventListener('mouseenter', () => { hovering = true; });
+  grid.addEventListener('mouseleave', () => { hovering = false; });
+
+  setInterval(() => {
+    if (!auto || !inView || hovering || document.hidden) return;
+    if (document.querySelector('.fslightbox-container')) return;
+    show(brands[(brands.indexOf(current) + 1) % brands.length]);
+  }, CYCLE_MS);
+}
+
+// 11. Preloader — wave recession on first visit
 function initPreloader() {
   if (sessionStorage.getItem('visited')) return;
   sessionStorage.setItem('visited', '1');
 
-  const BLUES     = ['#14AAE1','#7CD4F4','#427df2','#07374B','#3166d6','#0a1f3d','#14AAE1','#7CD4F4','#427df2'];
+  const BLUES     = ['#0b5f80','#1d6f91','#23458f','#041f2b','#1b3878','#050f1f','#0b5f80','#1d6f91','#23458f'];
   const WAVE_AMP  = 32;
   const WAVE_COLS = 16;
 
@@ -412,7 +507,7 @@ function initPreloader() {
   requestAnimationFrame(draw);
 }
 
-// 11. Initialize All
+// 12. Initialize All
 document.addEventListener('DOMContentLoaded', async () => {
   initPreloader();
   await includeHTML();
@@ -420,5 +515,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   initBlob();
   initLightbox();
   initIdSlideshow();
+  initBrandSwitcher();
   showSlides();
 });
